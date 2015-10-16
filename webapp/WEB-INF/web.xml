@@ -8,10 +8,25 @@
             <param-value>com.oneri.MyEndpoint</param-value>
         </init-param>
     </servlet>
+
+    <!--servlet for saving contacts-->
+    <servlet>
+        <servlet-name>SaveContactServlet</servlet-name>
+        <servlet-class>com.oneri.SaveContactServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
     </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>SaveContactServlet</servlet-name>
+        <!--l'URL associée-->
+        <url-pattern>/saveContact</url-pattern>
+    </servlet-mapping>
+
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
