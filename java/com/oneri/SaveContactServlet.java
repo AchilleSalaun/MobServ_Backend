@@ -17,7 +17,7 @@ public class SaveContactServlet extends javax.servlet.http.HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/plain");
-        resp.getWriter().println("Hello, moon");
+        resp.getWriter().println("You called the get method on the SaveContactServlet");
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
