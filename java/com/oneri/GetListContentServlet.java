@@ -28,7 +28,7 @@ public class GetListContentServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
         // Take the list of contacts ordered by name
-        Query query = new Query("Content").addSort("title", Query.SortDirection.ASCENDING);
+        Query query = new Query("Content").addSort("Title", Query.SortDirection.ASCENDING);
         List<Entity> contents = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
         // Let's output the basic HTML headers
