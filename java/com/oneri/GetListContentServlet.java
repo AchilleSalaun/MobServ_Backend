@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.appengine.labs.repackaged.org.json.XML;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,7 +45,7 @@ public class GetListContentServlet extends HttpServlet {
                 out.println(getJSON(contents, req, resp));
                 return;
             } else if (responseType.equals("xml")) {
-                resp.setContentType("application/json");
+                resp.setContentType("application/xml");
                 out.println(getXML(contents, req, resp));
                 return;
             }
@@ -71,15 +72,41 @@ public class GetListContentServlet extends HttpServlet {
         out.println("</body></html>");
     }
 
-    private String getXML(List<Entity> contacts, HttpServletRequest req, HttpServletResponse resp) {
-        // TODO Auto-generated method stub
-        return null;
+    private String getXML(List<Entity> contents, HttpServletRequest req, HttpServletResponse resp) {
+        // Create a JSON array that will contain all the entities converted in a JSON version
+        JSONArray results = new JSONArray();
+        for (Entity content : contents) {
+            JSONObject contactJSON = new JSONObject();
+            try {
+                contactJSON.put("id", KeyFactory.keyToString(content.getKey()));
+                contactJSON.put("CommercialLink", content.getProperty("CommercialLink"));
+                contactJSON.put("ContentType", content.getProperty("ContentType"));
+                contactJSON.put("Creator", content.getProperty("Creator"));
+                contactJSON.put("Description", content.getProperty("Description"));
+                contactJSON.put("ImageURL", content.getProperty("ImageURL"));
+                contactJSON.put("Title", content.getProperty("Title"));
+
+            } catch (JSONException e) {
+
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            results.put(contactJSON);
+        }
+        String xml = null;
+        try {
+            xml = XML.toString(results,"song");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //return results.toString();
+        return xml;
     }
     private String getJSON(List<Entity> contents, HttpServletRequest req, HttpServletResponse resp) {
 
         // Create a JSON array that will contain all the entities converted in a JSON version
         JSONArray results = new JSONArray();
-        for (Entity content: contents) {
+        for (Entity content : contents) {
             JSONObject contactJSON = new JSONObject();
             try {
                 contactJSON.put("id", KeyFactory.keyToString(content.getKey()));
