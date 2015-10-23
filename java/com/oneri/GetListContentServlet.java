@@ -100,7 +100,7 @@ public class GetListContentServlet extends HttpServlet {
             e.printStackTrace();
         }
         //return results.toString();
-        return xml;
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
     }
     private String getJSON(List<Entity> contents, HttpServletRequest req, HttpServletResponse resp) {
 
