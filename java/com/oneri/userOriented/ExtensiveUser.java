@@ -1,5 +1,6 @@
 package com.oneri.userOriented;
 
+import com.google.appengine.api.datastore.Entity;
 import com.oneri.SuperClasses.User;
 
 import java.util.ArrayList;
@@ -16,9 +17,11 @@ public class ExtensiveUser extends User{
     public ExtensiveUser( ArrayList<RelationToContent> myList,
                           ArrayList<RelationToContent> contentUserLikes,
                           ArrayList<RelationToContent> contentUserDoesntLike){
-
+        super();
         this.myList = myList;
         this.contentUserLikes = contentUserLikes;
         this.contentUserDoesntLike = contentUserDoesntLike;
     }
+
+
 }

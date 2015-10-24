@@ -1,5 +1,7 @@
 package com.oneri.SuperClasses;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.oneri.database.ObjectFromDB;
@@ -12,7 +14,8 @@ import java.util.ArrayList;
  */
 public class User extends ObjectFromDB {
 
-    private String type = "Contact";
+    private static final String type = "Contact";
+
     private String name = "undefined name";
     private String email = "undefined email";
     private String phone = "undefined phone number";
@@ -25,12 +28,11 @@ public class User extends ObjectFromDB {
         this.email = email;
         this.phone = phone;
         this.pict = pict;
-
     }
 
     public User(Key key) {
         super(key);
-        Entity entity = getEntity();
+        Entity entity = getEntityFromDB();
         this.name = (String)entity.getProperty("Name");
         this.email = (String)entity.getProperty("Email");
         this.phone = (String)entity.getProperty("Phone");
@@ -38,34 +40,30 @@ public class User extends ObjectFromDB {
     }
 
     public User(String id) {
-        super(id);
-        Entity entity = getEntity();
+        super(type,id);
+        Entity entity = getEntityFromDB();
+        initFromEntity(entity);
+    }
+
+    public User( String name, String email, String phone,
+                String pict) {
+        super(new Entity(type, email).getKey());
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.pict = pict;
+    }
+
+    private void initFromEntity(Entity entity){
         this.name = (String)entity.getProperty("Name");
         this.email = (String)entity.getProperty("Email");
         this.phone = (String)entity.getProperty("Phone");
         this.pict = (String)entity.getProperty("Pict");
     }
 
-    public User(Key key, String name, String email, String phone,
-                String pict) {
-        super(key);
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.pict = pict;
+    public String getName() {return name;}
 
-    }
-
-
-    public static String getType(){return "";}
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() {return email;}
 
     public String getPhone() {
         return phone;
@@ -75,6 +73,30 @@ public class User extends ObjectFromDB {
         return pict;
     }
 
+    public void setName(String name) {this.name = name;}
 
+    public void setEmail(String email) {this.email = email;}
 
+    public void setPhone(String phone) {this.phone = phone;}
+
+    public void setPict(String pict) {this.pict = pict;}
+
+    @Override
+    public Entity createEntity(){
+        Entity contact;
+        contact = new Entity(type, email); //This line means that the email address is used as a key in the DB
+        contact.setProperty("name", name);
+        contact.setProperty("phone", phone);
+        contact.setProperty("email", email); //Two people can't have the same or the DB won't make the difference
+        contact.setProperty("pict", pict);
+        return contact;
+    }
+    public void putInDB(){
+        Entity entity = createEntity();
+
+        // Take a reference of the datastore
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+        datastore.put(entity);
+    }
 }

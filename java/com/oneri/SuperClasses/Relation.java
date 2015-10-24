@@ -11,8 +11,8 @@ public class Relation extends ObjectFromDB {
 
     private String relationType;
     private String comment;
-    private Key key;
 
-    public static
-
+    public Relation(Key key) {
+        super(key);
+    }
 }

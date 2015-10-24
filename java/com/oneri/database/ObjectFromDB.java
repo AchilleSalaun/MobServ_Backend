@@ -12,21 +12,18 @@ import com.google.appengine.api.datastore.KeyFactory;
  */
 public abstract class ObjectFromDB {
 
-    private String type;
     private Key key;
 
-
-
     public ObjectFromDB(Key key) {this.key = key;}
-    public ObjectFromDB(String id){this.key = KeyFactory.createKey(type, id);}
+    public ObjectFromDB(String type, String id){this.key = KeyFactory.createKey(type, id);}
 
     public Key getKey() {return key;}
     public String getId() {return KeyFactory.keyToString(key);}
 
     public void setKey(Key key) {this.key = key;}
-    public void setKey(String id) {this.key = KeyFactory.createKey(type, id);}
+    public void setKey(String id, String type) {this.key = KeyFactory.createKey(type, id);}
 
-    public Entity getEntity(){
+    public Entity getEntityFromDB(){
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         try {
             return datastore.get(key);
@@ -35,6 +32,10 @@ public abstract class ObjectFromDB {
             return null;
         }
     }
+
+    public abstract Entity createEntity();
+    public abstract void putInDB();
+
 
 
 
