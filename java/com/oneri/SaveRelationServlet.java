@@ -23,8 +23,8 @@ public class SaveRelationServlet  extends javax.servlet.http.HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         // Retrieve informations from the URL
-        String contactKey = req.getParameter("contactKey");
-        String contentKey = req.getParameter("contentKey");
+        String contactId = req.getParameter("contactId");
+        String contentId = req.getParameter("contentId");
         String relationType = req.getParameter("relationType");
         String comment = req.getParameter("comment");
 
@@ -36,9 +36,9 @@ public class SaveRelationServlet  extends javax.servlet.http.HttpServlet {
         Entity relation;
 
         //This line means that the contact key and content key are assembled to make the key
-        relation = new Entity("Relation", contactKey + contentKey);
-        relation.setProperty("ContactKey", contactKey);
-        relation.setProperty("ContentKey", contentKey);
+        relation = new Entity("Relation", contactId + contentId);
+        relation.setProperty("ContactId", contactId);
+        relation.setProperty("ContentId", contentId);
         relation.setProperty("RelationType", relationType);
         relation.setProperty("Comment", comment);
 

@@ -1,6 +1,7 @@
 package com.oneri.userOriented;
 
 import com.google.appengine.api.datastore.Key;
+import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.User;
 
 /**

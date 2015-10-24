@@ -42,7 +42,7 @@ public class Content extends ObjectFromDB {
     }
 
     public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
-        super(new Entity(type, title + contentType).getKey());
+        super(null);
         this.commercialLink = commercialLink;
         this.contentType = contentType;
         this.creator = creator;
@@ -58,5 +58,17 @@ public class Content extends ObjectFromDB {
         this.description = (String) entity.getProperty("Description");
         this.imageURL = (String) entity.getProperty("ImageURL");
         this.title = (String) entity.getProperty("Title");
+    }
+
+    public Entity createEntity(){
+        Entity contact;
+        contact = new Entity(type, title + contentType);
+        contact.setProperty("CommercialLink", commercialLink);
+        contact.setProperty("ContentType", contentType);
+        contact.setProperty("Creator", creator);
+        contact.setProperty("Description", description);
+        contact.setProperty("ImageURL", imageURL);
+        contact.setProperty("Title", title);
+        return contact;
     }
 }

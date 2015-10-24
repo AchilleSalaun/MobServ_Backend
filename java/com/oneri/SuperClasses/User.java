@@ -1,13 +1,8 @@
 package com.oneri.SuperClasses;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.oneri.database.ObjectFromDB;
-import com.oneri.userOriented.RelationToContent;
-
-import java.util.ArrayList;
 
 /**
  * Created by Gaby on 23/10/2015.
@@ -21,8 +16,7 @@ public class User extends ObjectFromDB {
     private String phone = "undefined phone number";
     private String pict = "undefined pict url";
 
-    public User(Key key, String name, String email, String phone,
-                 String pict) {
+    public User(Key key, String name, String email, String phone, String pict) {
         super(key);
         this.name = name;
         this.email = email;
@@ -45,9 +39,8 @@ public class User extends ObjectFromDB {
         initFromEntity(entity);
     }
 
-    public User( String name, String email, String phone,
-                String pict) {
-        super(new Entity(type, email).getKey());
+    public User(String name, String email, String phone, String pict) {
+        super(null);
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -90,13 +83,5 @@ public class User extends ObjectFromDB {
         contact.setProperty("email", email); //Two people can't have the same or the DB won't make the difference
         contact.setProperty("pict", pict);
         return contact;
-    }
-    public void putInDB(){
-        Entity entity = createEntity();
-
-        // Take a reference of the datastore
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-        datastore.put(entity);
     }
 }

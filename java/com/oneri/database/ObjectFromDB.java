@@ -34,9 +34,13 @@ public abstract class ObjectFromDB {
     }
 
     public abstract Entity createEntity();
-    public abstract void putInDB();
+    public void putInDB(){
+        Entity entity = createEntity();
 
+        // Take a reference of the datastore
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-
-
+        datastore.put(entity);
+        key = entity.getKey();
+    }
 }
