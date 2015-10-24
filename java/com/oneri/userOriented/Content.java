@@ -1,4 +1,4 @@
-package com.oneri.content;
+package com.oneri.userOriented;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -7,8 +7,6 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 
 import com.google.appengine.api.datastore.KeyFactory;
-
-import java.util.Comparator;
 
 /**
  * Created by Gaby on 23/10/2015.

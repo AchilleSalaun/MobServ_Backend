@@ -1,7 +1,7 @@
-package com.oneri.content;
+package com.oneri.userOriented;
 
 import com.google.appengine.api.datastore.Key;
-import com.oneri.User.User;
+import com.oneri.SuperClasses.User;
 
 /**
  * Created by Gaby on 23/10/2015.
@@ -46,11 +46,9 @@ public class RelationToContent {
         this.comment = comment;
     }
 
-    public String getId() {
-        return id;
-    }
+    public Key getKey() {return key;}
 
-    public void setId(String id) {
-        this.id = id;
+    public void setKey(Key key) {
+        this.key = key;
     }
 }
