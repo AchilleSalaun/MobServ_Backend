@@ -12,26 +12,18 @@ public class RelationToUser extends Relation{
 
     private User user;
 
-    public RelationToUser(Key key) {
-        super(key);
-    }
-
-    public RelationToUser(String id) {
-        super(id);
-    }
+    public RelationToUser(Key key) {super(key);}
+    public RelationToUser(String id) {super(id);}
 
     public RelationToUser(Key key, String relationType, String comment, String contentId, String userId) {
-        super(key, relationType, comment, contentId, userId);
-    }
+        super(key, relationType, comment, contentId, userId);}
 
     public RelationToUser(String relationType, String comment, String contentId, String userId) {
-        super(relationType, comment, contentId, userId);
-    }
-
+        super(relationType, comment, contentId, userId);}
 
     public User getUser() {return user;}
 
-    public void setUser(Content content) {this.user = user;}
+    public void setUser(User user) {this.user = user;}
 
     public void setUserFromDB(){this.user = new User(this.getUserId());}
 }
