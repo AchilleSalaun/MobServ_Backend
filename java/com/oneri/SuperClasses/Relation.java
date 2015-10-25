@@ -20,7 +20,6 @@ public class Relation extends ObjectFromDB {
         Entity entity = getEntityFromDB();
         initFromEntity(entity);
     }
-
     public Relation (String id){
         super(type, id);
     }
@@ -31,7 +30,6 @@ public class Relation extends ObjectFromDB {
         this.contentId = contentId;
         this.userId = userId;
     }
-
     public Relation(String relationType,String comment, String contentId, String userId){
         super(null);
         this.relationType = relationType;
@@ -46,7 +44,6 @@ public class Relation extends ObjectFromDB {
         this.contentId = (String)entity.getProperty("CommentId");
         this.userId = (String)entity.getProperty("UserId");
     }
-
     public Entity createEntity() {
         Entity entity;
         entity = new Entity(type, userId + contentId);
@@ -55,5 +52,41 @@ public class Relation extends ObjectFromDB {
         entity.setProperty("RelationType", relationType);
         entity.setProperty("Comment", comment);
         return entity;
+    }
+
+    public static String getType() {
+        return type;
+    }
+
+    public String getRelationType() {
+        return relationType;
+    }
+
+    public void setRelationType(String relationType) {
+        this.relationType = relationType;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(String contentId) {
+        this.contentId = contentId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

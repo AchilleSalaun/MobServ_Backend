@@ -59,7 +59,6 @@ public class Content extends ObjectFromDB {
         this.imageURL = (String) entity.getProperty("ImageURL");
         this.title = (String) entity.getProperty("Title");
     }
-
     public Entity createEntity(){
         Entity contact;
         contact = new Entity(type, title + contentType);
@@ -70,5 +69,57 @@ public class Content extends ObjectFromDB {
         contact.setProperty("ImageURL", imageURL);
         contact.setProperty("Title", title);
         return contact;
+    }
+
+    public static String getType() {
+        return type;
+    }
+
+    public String getCommercialLink() {
+        return commercialLink;
+    }
+
+    public void setCommercialLink(String commercialLink) {
+        this.commercialLink = commercialLink;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -2,54 +2,37 @@ package com.oneri.userOriented;
 
 import com.google.appengine.api.datastore.Key;
 import com.oneri.SuperClasses.Content;
+import com.oneri.SuperClasses.Relation;
 import com.oneri.SuperClasses.User;
 
 /**
  * Created by Gaby on 23/10/2015.
  */
-public class RelationToContent {
+public class RelationToContent extends Relation {
 
     private Content content;
-    private User user;
-    private String relationType;
-    private String comment;
-    private Key key;
 
-
-    public RelationToContent(String comment, Content content, String relationType, Key key) {
-        this.comment = comment;
-        this.content = content;
-        this.relationType = relationType;
-        this.key = key;
+    public RelationToContent(Key key) {
+        super(key);
     }
 
-    public Content getContent() {
-        return content;
+    public RelationToContent(String id) {
+        super(id);
     }
 
-    public void setContent(Content content) {
-        this.content = content;
+    public RelationToContent(Key key, String relationType, String comment, String contentId, String userId) {
+        super(key, relationType, comment, contentId, userId);
     }
 
-    public String getRelationType() {
-        return relationType;
+    public RelationToContent(String relationType, String comment, String contentId, String userId) {
+        super(relationType, comment, contentId, userId);
     }
 
-    public void setRelationType(String relationType) {
-        this.relationType = relationType;
-    }
 
-    public String getComment() {
-        return comment;
-    }
+    public Content getContent() {return content;}
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+    public void setContent(Content content) {this.content = content;}
 
-    public Key getKey() {return key;}
+    public void setContentFromDB(){this.content = new Content(this.getContentId());}
 
-    public void setKey(Key key) {
-        this.key = key;
-    }
 }
