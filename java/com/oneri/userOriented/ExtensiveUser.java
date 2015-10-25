@@ -7,6 +7,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.*;
+import com.oneri.SuperClasses.Content;
+import com.oneri.SuperClasses.Relation;
 import com.oneri.SuperClasses.User;
 
 import java.util.ArrayList;
@@ -47,34 +49,53 @@ public class ExtensiveUser extends User{
     }
 
     public void generateRelations(){
-        Query.Filter lastNameFilter =
-                new Query.FilterPredicate("lastName",
+        generateContentList("waiting","myList");
+        generateContentList("likes","contentUserLikes");
+        generateContentList("doesn't like","contentUserDoesntLike");
+    }
+
+    //Cette fonction est à revoir (mais fonctionnne)
+    public void generateContentList(String filter,String list){
+        Query.Filter userFilter =
+                new Query.FilterPredicate("UserId",
                         Query.FilterOperator.EQUAL,
-                        targetLastName);
+                        getId());
 
-        Query.Filter cityFilter =
-                new Query.FilterPredicate("city",
+        Query.Filter relationTypeFilter =
+                new Query.FilterPredicate("RelationType",
                         Query.FilterOperator.EQUAL,
-                        targetCity);
+                        filter);
 
-        Query.Filter birthYearMinFilter =
-                new FilterPredicate("birthYear",
-                        FilterOperator.GREATER_THAN_OR_EQUAL,
-                        minBirthYear);
+        Filter validFilter = CompositeFilterOperator.and(userFilter,relationTypeFilter);
 
-        Filter birthYearMaxFilter =
-                new FilterPredicate("birthYear",
-                        FilterOperator.LESS_THAN_OR_EQUAL,
-                        maxBirthYear);
-
-        Filter validFilter = CompositeFilterOperator.and(lastNameFilter,
-                cityFilter,
-                birthYearMinFilter,
-                birthYearMaxFilter);
-
-        Query q = new Query("Person").setFilter(validFilter);
-        List<Entity> contents = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
-
+        Query q = new Query("Content").setFilter(validFilter);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        List<Entity> contents = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
+        switch (list){
+            case "myList":
+                this.contentUserDoesntLike = new ArrayList<RelationToContent>();
+                for(int i = 0; i<contents.size(); i++){
+                    this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
+                }
+                break;
+            case "contentUserLikes":
+                this.contentUserDoesntLike = new ArrayList<RelationToContent>();
+                for(int i = 0; i<contents.size(); i++){
+                    this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
+                }
+                break;
+            case "contentUserDoesntLike":
+                this.contentUserDoesntLike = new ArrayList<RelationToContent>();
+                for(int i = 0; i<contents.size(); i++){
+                    this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
+                }
+                break;
+            default: System.out.println("regarde dans le switch");
+        }
+        this.contentUserDoesntLike = new ArrayList<RelationToContent>();
+        for(int i = 0; i<contents.size(); i++){
+            this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
+        }
     }
 
     public void putInDBWithRelations(){
