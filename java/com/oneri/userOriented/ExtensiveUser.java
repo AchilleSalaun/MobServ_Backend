@@ -68,7 +68,7 @@ public class ExtensiveUser extends User{
 
         Filter validFilter = CompositeFilterOperator.and(userFilter,relationTypeFilter);
 
-        Query q = new Query("Content").setFilter(validFilter);
+        Query q = new Query("Relation").setFilter(validFilter);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         List<Entity> contents = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
         switch (list){
@@ -91,10 +91,6 @@ public class ExtensiveUser extends User{
                 }
                 break;
             default: System.out.println("regarde dans le switch");
-        }
-        this.contentUserDoesntLike = new ArrayList<RelationToContent>();
-        for(int i = 0; i<contents.size(); i++){
-            this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
         }
     }
 
