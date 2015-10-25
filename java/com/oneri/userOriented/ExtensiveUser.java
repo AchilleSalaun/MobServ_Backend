@@ -5,8 +5,13 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.*;
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.appengine.labs.repackaged.org.json.XML;
 import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.Relation;
 import com.oneri.SuperClasses.User;
@@ -50,8 +55,8 @@ public class ExtensiveUser extends User{
 
     public void generateRelations(){
         generateContentList("waiting","myList");
-        generateContentList("likes","contentUserLikes");
-        generateContentList("doesn't like","contentUserDoesntLike");
+        generateContentList("likes", "contentUserLikes");
+        generateContentList("doesn't like", "contentUserDoesntLike");
     }
 
     //Cette fonction est à revoir (mais fonctionnne)
@@ -100,6 +105,39 @@ public class ExtensiveUser extends User{
         putListInDB(contentUserLikes);
         putListInDB(contentUserDoesntLike);
 
+    }
+
+    public String myListsToXML(){
+
+        JSONArray results = new JSONArray();
+        Content content;
+        for (int i = 0; i < myList.size(); i++) {
+            JSONObject contactJSON = new JSONObject();
+            try {
+                content = myList.get(i).getContent();
+                contactJSON.put("id",content.getId());
+                contactJSON.put("CommercialLink", content.getCommercialLink());
+                contactJSON.put("ContentType", content.getContentType());
+                contactJSON.put("Creator", content.getCreator());
+                contactJSON.put("Description", content.getDescription());
+                contactJSON.put("ImageURL", content.getImageURL());
+                contactJSON.put("Title", content.getTitle());
+
+            } catch (JSONException e) {
+
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            results.put(contactJSON);
+        }
+        String xml = null;
+        try {
+            xml = XML.toString(results, "song");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //return results.toString();
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
     }
 
     public void putListInDB(ArrayList<RelationToContent> relations){
