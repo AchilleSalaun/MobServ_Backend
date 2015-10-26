@@ -33,6 +33,9 @@ public class getMyInfosServlet extends HttpServlet {
         List<Entity> contents = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
         String id = req.getParameter("id");
+        if (id == null){
+            return;
+        }
         ExtensiveUser user = new ExtensiveUser(id);
         // Let's output the basic HTML headers
         PrintWriter out = resp.getWriter();

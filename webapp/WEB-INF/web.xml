@@ -32,6 +32,11 @@
         <servlet-class>com.oneri.GetListContentServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>GetMyInfosServlet</servlet-name>
+        <servlet-class>com.oneri.getMyInfosServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
@@ -60,6 +65,12 @@
         <servlet-name>GetListContentServlet</servlet-name>
         <!--l'URL associée-->
         <url-pattern>/getListContent</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetMyInfosServlet</servlet-name>
+        <!--l'URL associée-->
+        <url-pattern>/getMyInfos</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
