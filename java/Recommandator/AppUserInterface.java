@@ -5,5 +5,5 @@ package Recommandator;
  */
 public interface AppUserInterface
 {
-    
+
 }
