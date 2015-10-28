@@ -36,13 +36,13 @@ public class Content extends ObjectFromDB {
     }
 
     public Content(String id) {
-        super(type,id);
+        super(id);
         Entity entity = getEntityFromDB();
         initFromEntity(entity);
     }
 
     public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
-        super(null);
+        super();
         this.commercialLink = commercialLink;
         this.contentType = contentType;
         this.creator = creator;

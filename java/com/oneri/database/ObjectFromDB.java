@@ -14,14 +14,16 @@ public abstract class ObjectFromDB {
 
     private Key key;
 
+    public ObjectFromDB(){this.key = null;}
+
     public ObjectFromDB(Key key) {this.key = key;}
-    public ObjectFromDB(String type, String id){this.key = KeyFactory.createKey(type, id);}
+    public ObjectFromDB(String id){this.key = KeyFactory.stringToKey(id);}
 
     public Key getKey() {return key;}
     public String getId() {return KeyFactory.keyToString(key);}
 
     public void setKey(Key key) {this.key = key;}
-    public void setKey(String id, String type) {this.key = KeyFactory.createKey(type, id);}
+    public void setKey(String id, String type) {this.key = KeyFactory.stringToKey(id);}
 
     public Entity getEntityFromDB(){
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

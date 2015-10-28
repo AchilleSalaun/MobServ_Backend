@@ -38,13 +38,13 @@ public class User extends ObjectFromDB {
     }
 
     public User(String id) {
-        super(type,id);
+        super(id);
         Entity entity = getEntityFromDB();
         initFromEntity(entity);
     }
 
     public User(String name, String email, String phone, String pict) {
-        super(null);
+        super();
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -52,7 +52,7 @@ public class User extends ObjectFromDB {
     }
 
     public User(String email, int dumbVarialble){
-        super(null);
+        super();
         Query q = new Query("Contact")
                 .setFilter(new Query.FilterPredicate("Email",
                         Query.FilterOperator.EQUAL,

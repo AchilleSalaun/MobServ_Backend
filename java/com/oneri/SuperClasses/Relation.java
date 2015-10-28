@@ -21,7 +21,7 @@ public class Relation extends ObjectFromDB {
         initFromEntity(entity);
     }
     public Relation (String id){
-        super(type, id);
+        super(id);
     }
     public Relation(Key key,String relationType,String comment, String contentId, String userId) {
         super(key);
@@ -31,7 +31,7 @@ public class Relation extends ObjectFromDB {
         this.userId = userId;
     }
     public Relation(String relationType,String comment, String contentId, String userId){
-        super(null);
+        super();
         this.relationType = relationType;
         this.comment = comment;
         this.contentId = contentId;
