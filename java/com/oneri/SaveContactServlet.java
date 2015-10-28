@@ -23,10 +23,10 @@ public class SaveContactServlet extends javax.servlet.http.HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         // Retrieve informations from the URL
-        String contactName = req.getParameter("name");
-        String contactPhone = req.getParameter("phone");
-        String contactEmail = req.getParameter("email");
-        String contactPict = req.getParameter("pict");
+        String userName = req.getParameter("name");
+        String userPhone = req.getParameter("phone");
+        String userEmail = req.getParameter("email");
+        String userPict = req.getParameter("pict");
 
         // Take a reference of the datastore
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -34,15 +34,15 @@ public class SaveContactServlet extends javax.servlet.http.HttpServlet {
         // Generate or retrieve the key associated with an existent contact
         // Create or modify the entity associated with the contact
         Entity contact;
-        contact = new Entity("Contact", contactEmail); //This line means that the email address is used as a key in the DB
-        contact.setProperty("name", contactName);
-        contact.setProperty("phone", contactPhone);
-        contact.setProperty("email", contactEmail); //Two people can't have the same or the DB won't make the difference
-        contact.setProperty("pict", contactPict);
+        contact = new Entity("Contact", userEmail); //This line means that the email address is used as a key in the DB
+        contact.setProperty("Name", userName);
+        contact.setProperty("Phone", userPhone);
+        contact.setProperty("Email", userEmail); //Two people can't have the same or the DB won't make the difference
+        contact.setProperty("Pict", userPict);
 
         // Save in the Datastore
         datastore.put(contact);
-        resp.getWriter().println("Contact " + contactName + " saved with key " +
+        resp.getWriter().println("User " + userName + " saved with key " +
                 KeyFactory.keyToString(contact.getKey()) + "!");
 
         //Go to appengine.google.com to see the DB

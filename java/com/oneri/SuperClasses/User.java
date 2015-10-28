@@ -1,7 +1,11 @@
 package com.oneri.SuperClasses;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.oneri.database.ObjectFromDB;
 
 /**
@@ -45,6 +49,20 @@ public class User extends ObjectFromDB {
         this.email = email;
         this.phone = phone;
         this.pict = pict;
+    }
+
+    public User(String email, int dumbVarialble){
+        super(null);
+        Query q = new Query("Contact")
+                .setFilter(new Query.FilterPredicate("Email",
+                        Query.FilterOperator.EQUAL,
+                        email));
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery pq = datastore.prepare(q);
+        Entity result = pq.asSingleEntity();
+        initFromEntity(result);
+        setKey(result.getKey());
     }
 
     private void initFromEntity(Entity entity){

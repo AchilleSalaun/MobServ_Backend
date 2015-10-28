@@ -14,18 +14,22 @@ public class RelationToContent extends Relation {
 
     public RelationToContent(Key key) {
         super(key);
+        setContentFromDB();
     }
 
     public RelationToContent(String id) {
         super(id);
+        setContentFromDB();
     }
 
     public RelationToContent(Key key, String relationType, String comment, String contentId, String userId) {
         super(key, relationType, comment, contentId, userId);
+        setContentFromDB();
     }
 
     public RelationToContent(String relationType, String comment, String contentId, String userId) {
         super(relationType, comment, contentId, userId);
+        setContentFromDB();
     }
 
 

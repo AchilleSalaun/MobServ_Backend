@@ -52,6 +52,10 @@ public class ExtensiveUser extends User{
         super(id);
         generateRelations();
     }
+    public ExtensiveUser(String email, int dumbVarialble){
+        super(email,dumbVarialble);
+        generateRelations();
+    }
 
     public void generateRelations(){
         generateContentList("waiting","myList");
@@ -78,15 +82,15 @@ public class ExtensiveUser extends User{
         List<Entity> contents = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
         switch (list){
             case "myList":
-                this.contentUserDoesntLike = new ArrayList<RelationToContent>();
+                this.myList = new ArrayList<RelationToContent>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
+                    this.myList.add(new RelationToContent(contents.get(i).getKey()));
                 }
                 break;
             case "contentUserLikes":
-                this.contentUserDoesntLike = new ArrayList<RelationToContent>();
+                this.contentUserLikes = new ArrayList<RelationToContent>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
+                    this.contentUserLikes.add(new RelationToContent(contents.get(i).getKey()));
                 }
                 break;
             case "contentUserDoesntLike":

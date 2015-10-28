@@ -41,7 +41,7 @@ public class Relation extends ObjectFromDB {
     private void initFromEntity(Entity entity){
         this.relationType = (String)entity.getProperty("RelationType");
         this.comment = (String)entity.getProperty("Comment");
-        this.contentId = (String)entity.getProperty("CommentId");
+        this.contentId = (String)entity.getProperty("ContentId");
         this.userId = (String)entity.getProperty("UserId");
     }
     public Entity createEntity() {
