@@ -9,39 +9,105 @@
         </init-param>
     </servlet>
 
-    <!--servlet for saving contacts-->
+    <!--******************GET SERVLETS**************************-->
+
+    <servlet>
+        <servlet-name>GetCommentServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetCommentsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetLikedContentServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetLikedContentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetListContentServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetListContentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetMyContentServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetMyContentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetMyInfosServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetMyInfosServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetRandomContentServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetRandomContentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetRecommendationsServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetRecommendationsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetSearchResultsServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetSearchResultsServlet</servlet-class>
+    </servlet>
+
+    <!--********************POST SERVLETS****************************-->
+
     <servlet>
         <servlet-name>SaveContactServlet</servlet-name>
         <servlet-class>com.oneri.postServlets.SaveContactServlet</servlet-class>
     </servlet>
-
-    <!--servlet for saving relations-->
+    <servlet>
+        <servlet-name>SaveContentServlet</servlet-name>
+        <servlet-class>com.oneri.postServlets.SaveContentServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>SaveRelationServlet</servlet-name>
         <servlet-class>com.oneri.postServlets.SaveRelationServlet</servlet-class>
     </servlet>
 
-    <!--servlet for saving content-->
-    <servlet>
-        <servlet-name>SaveContentServlet</servlet-name>
-        <servlet-class>com.oneri.postServlets.SaveContentServlet</servlet-class>
-    </servlet>
 
-    <servlet>
-        <servlet-name>GetListContentServlet</servlet-name>
-        <servlet-class>com.oneri.getServlets.GetListContentServlet</servlet-class>
-    </servlet>
 
-    <servlet>
-        <servlet-name>GetMyInfosServlet</servlet-name>
-        <servlet-class>com.oneri.getServlets.GetLikedContentServlet</servlet-class>
-    </servlet>
+
+
+
+    <!--*****************GET SERVLETS**************************-->
 
     <servlet-mapping>
-        <servlet-name>SystemServiceServlet</servlet-name>
-        <url-pattern>/_ah/spi/*</url-pattern>
+        <servlet-name>GetCommentsServlet</servlet-name>
+        <url-pattern>getComments</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>GetLikedContentServlet</servlet-name>
+        <url-pattern>getLikedContent</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetListContentServlet</servlet-name>
+        <url-pattern>getListContent</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetMyContentServlet</servlet-name>
+        <url-pattern>getMyContent</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetMyInfosServlet</servlet-name>
+        <url-pattern>getMyInfos</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetRandomContentServlet</servlet-name>
+        <url-pattern>getRandomContent</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetRecommendationsServlet</servlet-name>
+        <url-pattern>getRecommendations</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetSearchResultsServlet</servlet-name>
+        <url-pattern>getSearchResults</url-pattern>
+    </servlet-mapping>
+
+
+    <!--***************POST SERVLETS**************************-->
 
     <servlet-mapping>
         <servlet-name>SaveContactServlet</servlet-name>
@@ -61,16 +127,11 @@
         <url-pattern>/saveContent</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>GetListContentServlet</servlet-name>
-        <!--l'URL associée-->
-        <url-pattern>/getListContent</url-pattern>
-    </servlet-mapping>
+
 
     <servlet-mapping>
-        <servlet-name>GetMyInfosServlet</servlet-name>
-        <!--l'URL associée-->
-        <url-pattern>/getMyInfos</url-pattern>
+        <servlet-name>SystemServiceServlet</servlet-name>
+        <url-pattern>/_ah/spi/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
