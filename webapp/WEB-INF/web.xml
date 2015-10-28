@@ -12,29 +12,29 @@
     <!--servlet for saving contacts-->
     <servlet>
         <servlet-name>SaveContactServlet</servlet-name>
-        <servlet-class>com.oneri.SaveContactServlet</servlet-class>
+        <servlet-class>com.oneri.postServlets.SaveContactServlet</servlet-class>
     </servlet>
 
     <!--servlet for saving relations-->
     <servlet>
         <servlet-name>SaveRelationServlet</servlet-name>
-        <servlet-class>com.oneri.SaveRelationServlet</servlet-class>
+        <servlet-class>com.oneri.postServlets.SaveRelationServlet</servlet-class>
     </servlet>
 
     <!--servlet for saving content-->
     <servlet>
         <servlet-name>SaveContentServlet</servlet-name>
-        <servlet-class>com.oneri.SaveContentServlet</servlet-class>
+        <servlet-class>com.oneri.postServlets.SaveContentServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>GetListContentServlet</servlet-name>
-        <servlet-class>com.oneri.GetListContentServlet</servlet-class>
+        <servlet-class>com.oneri.getServlets.GetListContentServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>GetMyInfosServlet</servlet-name>
-        <servlet-class>com.oneri.getMyInfosServlet</servlet-class>
+        <servlet-class>com.oneri.getServlets.GetLikedContentServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

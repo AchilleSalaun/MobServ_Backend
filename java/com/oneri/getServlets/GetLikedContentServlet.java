@@ -1,4 +1,4 @@
-package com.oneri;
+package com.oneri.getServlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by Gaby on 25/10/2015.
  */
-public class getMyInfosServlet extends HttpServlet {
+public class GetLikedContentServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

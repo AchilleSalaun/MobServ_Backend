@@ -1,4 +1,4 @@
-package com.oneri;
+package com.oneri.postServlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
