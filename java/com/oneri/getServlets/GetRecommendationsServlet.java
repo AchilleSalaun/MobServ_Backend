@@ -1,5 +1,6 @@
 package com.oneri.getServlets;
 
+import com.oneri.MyUtil;
 import com.oneri.userOriented.ExtensiveUser;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class GetRecommendationsServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("application/xml");
-        out.println(user.myListsToXML());
+
         return;
     }
 }

@@ -41,8 +41,8 @@ public class GetLikedContentServlet extends HttpServlet {
 
         resp.setContentType("application/xml");
         ArrayList<Content> myList = new ArrayList<>();
-        for(int i = 0; i<user.getMyList().size();i++){
-            myList.add(user.getMyList().get(i).getContent());
+        for(int i = 0; i<user.getContentUserLikes().size();i++){
+            myList.add(user.getContentUserLikes().get(i).getContent());
         }
         out.println(MyUtil.contentsListToXML(myList));
         return;

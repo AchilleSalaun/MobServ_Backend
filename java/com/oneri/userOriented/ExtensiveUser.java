@@ -110,26 +110,6 @@ public class ExtensiveUser extends User{
         putListInDB(contentUserDoesntLike);
 
     }
-/*
-    public String myListsToXML(){
-
-        JSONArray results = new JSONArray();
-        Content content;
-        for (int i = 0; i < myList.size(); i++) {
-            JSONObject contactJSON = new JSONObject();
-            content = myList.get(i).getContent();
-            content.toJSON(contactJSON);
-            results.put(contactJSON);
-        }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
-    }*/
 
     public void putListInDB(ArrayList<RelationToContent> relations){
         for(int i = 0; i<relations.size();i++){
