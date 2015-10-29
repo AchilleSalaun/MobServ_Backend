@@ -110,28 +110,15 @@ public class ExtensiveUser extends User{
         putListInDB(contentUserDoesntLike);
 
     }
-
+/*
     public String myListsToXML(){
 
         JSONArray results = new JSONArray();
         Content content;
         for (int i = 0; i < myList.size(); i++) {
             JSONObject contactJSON = new JSONObject();
-            try {
-                content = myList.get(i).getContent();
-                contactJSON.put("id",content.getId());
-                contactJSON.put("CommercialLink", content.getCommercialLink());
-                contactJSON.put("ContentType", content.getContentType());
-                contactJSON.put("Creator", content.getCreator());
-                contactJSON.put("Description", content.getDescription());
-                contactJSON.put("ImageURL", content.getImageURL());
-                contactJSON.put("Title", content.getTitle());
-
-            } catch (JSONException e) {
-
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            content = myList.get(i).getContent();
+            content.toJSON(contactJSON);
             results.put(contactJSON);
         }
         String xml = null;
@@ -142,11 +129,35 @@ public class ExtensiveUser extends User{
         }
         //return results.toString();
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
-    }
+    }*/
 
     public void putListInDB(ArrayList<RelationToContent> relations){
         for(int i = 0; i<relations.size();i++){
             relations.get(i).putInDB();
         }
+    }
+
+    public ArrayList<RelationToContent> getMyList() {
+        return myList;
+    }
+
+    public void setMyList(ArrayList<RelationToContent> myList) {
+        this.myList = myList;
+    }
+
+    public ArrayList<RelationToContent> getContentUserLikes() {
+        return contentUserLikes;
+    }
+
+    public void setContentUserLikes(ArrayList<RelationToContent> contentUserLikes) {
+        this.contentUserLikes = contentUserLikes;
+    }
+
+    public ArrayList<RelationToContent> getContentUserDoesntLike() {
+        return contentUserDoesntLike;
+    }
+
+    public void setContentUserDoesntLike(ArrayList<RelationToContent> contentUserDoesntLike) {
+        this.contentUserDoesntLike = contentUserDoesntLike;
     }
 }

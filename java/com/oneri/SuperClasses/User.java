@@ -3,7 +3,9 @@ package com.oneri.SuperClasses;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.oneri.database.ObjectFromDB;
@@ -20,14 +22,6 @@ public class User extends ObjectFromDB {
     private String phone = "undefined phone number";
     private String pict = "undefined pict url";
 
-    public User(Key key, String name, String email, String phone, String pict) {
-        super(key);
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.pict = pict;
-    }
-
     public User(Key key) {
         super(key);
         Entity entity = getEntityFromDB();
@@ -36,13 +30,23 @@ public class User extends ObjectFromDB {
         this.phone = (String)entity.getProperty("Phone");
         this.pict = (String)entity.getProperty("Pict");
     }
-
     public User(String id) {
         super(id);
         Entity entity = getEntityFromDB();
         initFromEntity(entity);
     }
-
+    public User(String email, int dumbVarialble){
+        super();
+        Key key = KeyFactory.createKey(type, email);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        try {
+            Entity result = datastore.get(key);
+            initFromEntity(result);
+            setKey(result.getKey());
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     public User(String name, String email, String phone, String pict) {
         super();
         this.name = name;
@@ -51,18 +55,12 @@ public class User extends ObjectFromDB {
         this.pict = pict;
     }
 
-    public User(String email, int dumbVarialble){
-        super();
-        Query q = new Query("Contact")
-                .setFilter(new Query.FilterPredicate("Email",
-                        Query.FilterOperator.EQUAL,
-                        email));
-
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery pq = datastore.prepare(q);
-        Entity result = pq.asSingleEntity();
-        initFromEntity(result);
-        setKey(result.getKey());
+    public User(Key key, String name, String email, String phone, String pict) {
+        super(key);
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.pict = pict;
     }
 
     private void initFromEntity(Entity entity){
@@ -70,6 +68,15 @@ public class User extends ObjectFromDB {
         this.email = (String)entity.getProperty("Email");
         this.phone = (String)entity.getProperty("Phone");
         this.pict = (String)entity.getProperty("Pict");
+    }
+    public Entity createEntity(){
+        Entity contact;
+        contact = new Entity(type, email); //This line means that the email address is used as a key in the DB
+        contact.setProperty("name", name);
+        contact.setProperty("phone", phone);
+        contact.setProperty("email", email); //Two people can't have the same or the DB won't make the difference
+        contact.setProperty("pict", pict);
+        return contact;
     }
 
     public String getName() {return name;}
@@ -91,15 +98,4 @@ public class User extends ObjectFromDB {
     public void setPhone(String phone) {this.phone = phone;}
 
     public void setPict(String pict) {this.pict = pict;}
-
-    @Override
-    public Entity createEntity(){
-        Entity contact;
-        contact = new Entity(type, email); //This line means that the email address is used as a key in the DB
-        contact.setProperty("name", name);
-        contact.setProperty("phone", phone);
-        contact.setProperty("email", email); //Two people can't have the same or the DB won't make the difference
-        contact.setProperty("pict", pict);
-        return contact;
-    }
 }

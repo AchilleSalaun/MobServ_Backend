@@ -1,8 +1,18 @@
 package com.oneri.SuperClasses;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.oneri.database.ObjectFromDB;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Gaby on 24/10/2015.
@@ -18,9 +28,30 @@ public class Content extends ObjectFromDB {
     private String imageURL = "undefined image URL";
     private String title = "undefined title";
 
-
-    public Content(Key key, String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
+    public Content(Key key) {
         super(key);
+        Entity entity = getEntityFromDB();
+        initFromEntity(entity);
+    }
+    public Content(String id) {
+        super(id);
+        Entity entity = getEntityFromDB();
+        initFromEntity(entity);
+    }
+    public Content(String title,String contentType){
+        super();
+        Key key = KeyFactory.createKey(type, title + contentType);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        try {
+            Entity result = datastore.get(key);
+            initFromEntity(result);
+            setKey(result.getKey());
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
+        super();
         this.commercialLink = commercialLink;
         this.contentType = contentType;
         this.creator = creator;
@@ -29,20 +60,8 @@ public class Content extends ObjectFromDB {
         this.title = title;
     }
 
-    public Content(Key key) {
+    public Content(Key key, String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
         super(key);
-        Entity entity = getEntityFromDB();
-        initFromEntity(entity);
-    }
-
-    public Content(String id) {
-        super(id);
-        Entity entity = getEntityFromDB();
-        initFromEntity(entity);
-    }
-
-    public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
-        super();
         this.commercialLink = commercialLink;
         this.contentType = contentType;
         this.creator = creator;

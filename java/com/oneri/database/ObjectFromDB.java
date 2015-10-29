@@ -6,6 +6,11 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Gaby on 24/10/2015.
@@ -44,5 +49,21 @@ public abstract class ObjectFromDB {
 
         datastore.put(entity);
         key = entity.getKey();
+    }
+
+    public JSONObject toJSON(JSONObject jsonObject){
+        Entity entity = createEntity();
+        Map<String,Object> map = entity.getProperties();
+        Iterator iterator = map.keySet().iterator();
+        while(iterator.hasNext()){
+            String key   = (String)iterator.next();
+            String value = (String) map.get(key);
+            try {
+                jsonObject.put(key,value);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonObject;
     }
 }
