@@ -28,30 +28,31 @@ public class Recommandator
         // else, its weight is 0 ;
         //
         // Thus, for each user, we can get a vector U containing 1,0 or -1 depending on the relation between the user and each content.
-        // Then, v:=U1-U2
-        ArrayList<Integer> v = new ArrayList<Integer>();
+        // Then, v:=U1-U2 : we want to get its norm.
 
-        // this method is based on user1's point of view : however, we need to know how many contents liked or disliked by the user2, that are unknown from user 1.
+        // k is the number of items known by one of the two users but not by the other.
         int k = user2.getContentUserLikes().size()+user2.getContentUserDoesntLike().size() ;
 
-        // We begin by looking for the content user1 likes in the several user2' lists
+        // d indicates the disagreement between the two users.
+        int d = 0 ;
+
+        // We begin by looking for the content user1 likes in the several user2' lists...
         for(RelationToContent r1 : user1.getContentUserLikes())
         {
             if(user2.getContentUserDoesntLike().contains(r1))
             {
-                // if r1 is liked by user1 but disliked by user 2 : its weight is 1-(-1)=2
-                v.add(2);
+                // if r1 is liked by user1 but disliked by user 2 : its weight is 1-(-1)=2 --> in the Euclidian norm, 2^2=4 appears
+                d=d+4 ;
                 k-- ;
             }
             else if (user2.getContentUserLikes().contains(r1))
             {
-                // else : user1 and user2 like the content : its weight is 1-1 = 0 ;
-                // k-- ;
+                // user1 and user2 like the content : its weight is 1-1 = 0 ;
+                k-- ;
             }
             else
             {
-                // if r1 is liked by user1 but doesn't appear in any list of user 2 : its weight is 1-0=1
-                v.add(1);
+                k++ ;
             }
 
         }
@@ -62,7 +63,7 @@ public class Recommandator
             if(user2.getContentUserLikes().contains(r1))
             {
                 // -1-(1)
-                v.add(-2);
+                d=d+4 ;
                 k-- ;
             }
             else if (user2.getContentUserDoesntLike().contains(r1))
@@ -72,18 +73,12 @@ public class Recommandator
             }
             else
             {
-                // -1_0
-                v.add(-1);
+                k++;
             }
 
         }
 
-        // we return the Euclidian (relevance ot this norm ?) norm d of v, which is  ;
-        int d = 0 ;
-        for(int i : v)
-        {
-            d = d+i^2 ;
-        }
+        // we return the Euclidian (relevance ot this norm ?) norm of v, which is  :
         return Math.sqrt(d+k) ;
     }
 
@@ -92,16 +87,14 @@ public class Recommandator
     // see the method distanceUser
     public static double distanceContent(ExtensiveContent content1, ExtensiveContent content2)
     {
-        ArrayList<Integer> c = new ArrayList<Integer>();
-
-        // this method is based on user1's point of view : however, we need to know how many contents liked or disliked by the user2, that are unknown from user 1.
         int k = content2.getUsersWhoLikes().size()+content2.getUsersWhoDoesntLike().size() ;
+        int d = 0 ;
 
         for(RelationToContent r1 : content1.getUsersWhoLikes())
         {
             if(content2.getUsersWhoDoesntLike().contains(r1))
             {
-                c.add(2);
+                d=d+4 ;
                 k-- ;
             }
             else if (content2.getUsersWhoLikes().contains(r1))
@@ -110,7 +103,7 @@ public class Recommandator
             }
             else
             {
-                c.add(1);
+                d=d+4 ;
             }
         }
 
@@ -118,7 +111,7 @@ public class Recommandator
         {
             if(content2.getUsersWhoDoesntLike().contains(r1))
             {
-                c.add(-2);
+                d=d+4 ;
                 k-- ;
             }
             else if (content2.getUsersWhoDoesntLike().contains(r1))
@@ -127,15 +120,10 @@ public class Recommandator
             }
             else
             {
-                c.add(-1);
+                d=d+4 ;
             }
         }
 
-        int d = 0 ;
-        for(int i : c)
-        {
-            d = d+i^2 ;
-        }
         return Math.sqrt(d+k) ;
     }
 
