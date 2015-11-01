@@ -50,8 +50,8 @@ public class ExtensiveContent extends Content{
 
     public void generateRelations(){
         generateContentList("waiting","myList");
-        generateContentList("likes","contentUserLikes");
-        generateContentList("doesn't like","userWhoDoesntLike");
+        generateContentList("likes", "contentUserLikes");
+        generateContentList("doesn't like", "userWhoDoesntLike");
     }
 
     //Cette fonction est à revoir (mais fonctionnne)
@@ -107,4 +107,9 @@ public class ExtensiveContent extends Content{
             relations.get(i).putInDB();
         }
     }
+
+    /* GETTERS */
+    public ArrayList<RelationToContent> getUsersWhoLikes() {return this.usersWhoLikes ;}
+    public ArrayList<RelationToContent> getUsersWhoDoesntLike() {return this.usersWhoDoesntLike ;}
+
 }
