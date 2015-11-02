@@ -1,5 +1,7 @@
 package com.oneri.Recommandator;
 
+import com.oneri.MyUtil;
+import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.User;
 import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.database.ObjectFromDB;
@@ -61,6 +63,11 @@ public class Recommandator
         return Math.sqrt(d) ;
     }
 
+    public static ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser user)
+    {
+        return new ArrayList<ExtensiveUser>() ;
+    }
+
 
     /** Item Oriented **/
     // see the method distanceUser
@@ -83,6 +90,11 @@ public class Recommandator
         }
 
         return Math.sqrt(d) ;
+    }
+
+    public static ArrayList<ExtensiveContent> getSimilarContentTo(ExtensiveContent content)
+    {
+        return new ArrayList<ExtensiveContent>() ;
     }
 
     /** General point of view **/
@@ -172,18 +184,23 @@ public class Recommandator
         return new SortedList<ObjectFromDB>((ObservableList<ObjectFromDB>) list, comparator);
     }
 
-    public static SortedList<ExtensiveContent> recommand(ExtensiveUser user)
+    public static SortedList<Content> recommand(ExtensiveUser user)
     {
         // First, we look for similar users :
-        /** getSimilarUsersTo(ExtensiveUser user) returning SortedList<ExtensiveUser> similarUsers **/
+        ArrayList<ExtensiveUser> similarUsers = getSimilarUserTo(user) ;
 
         // We get all the content they like in the same list
-        ArrayList<ExtensiveContent> recommandedContent = new ArrayList<ExtensiveContent>() ;
-        /** for(ExtensiveUser u : similarUsers){recommandedContent.add(...)} **/
+        ArrayList<Content> recommandedContent = new ArrayList<Content>() ;
+        for(ExtensiveUser u : similarUsers)
+        {recommandedContent.addAll(MyUtil.toArray(u));}
 
         // We add similar content :
-        /** for(ExtensiveContent c : recommandedContent)
-         * {getSimilarContentTo(ExtensiveContent content) returning SortedList<ExtensiveContent> similarContent} **/
+        ArrayList<Content> finalRecommandedContent = new ArrayList<Content>() ;
+        for(Content c : recommandedContent)
+        {
+            finalRecommandedContent.addAll(getSimilarContentTo(c)) ;
+        }
+         /** doublons ? **/
 
         // Finally, we sort this :
         SortedList<ExtensiveContent> recommandation = new SortedList<ExtensiveContent>((ObservableList<ExtensiveContent>) recommandedContent/** or/and similarContent **/) ;

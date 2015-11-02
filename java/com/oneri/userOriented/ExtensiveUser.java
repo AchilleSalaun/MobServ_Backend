@@ -42,7 +42,6 @@ public class ExtensiveUser extends User{
         this.contentUserDoesntLike = contentUserDoesntLike;
     }
 
-
     public ExtensiveUser(Key key) {
         super(key);
         generateRelations();
