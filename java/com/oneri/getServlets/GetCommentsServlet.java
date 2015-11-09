@@ -1,5 +1,6 @@
 package com.oneri.getServlets;
 
+import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.userOriented.ExtensiveUser;
 
 import java.io.IOException;
@@ -16,9 +17,16 @@ public class GetCommentsServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+        String contentId = req.getParameter("contentId");
+        if (contentId == null){
+            return;
+        }
 
+        ExtensiveContent extensiveContent = new ExtensiveContent(contentId);
+        PrintWriter out = resp.getWriter();
 
-
-        //dumb comment
+        resp.setContentType("application/xml");
+        out.println(extensiveContent.commentsToXML());
+        return;
     }
 }
