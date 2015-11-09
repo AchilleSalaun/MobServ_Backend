@@ -5,6 +5,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
+import com.oneri.ContentToSort;
 import com.oneri.MyUtil;
 import com.oneri.SuperClasses.Content;
 
@@ -43,13 +44,13 @@ public class GetSearchResultsServlet extends HttpServlet {
             // It may also be necessary to adjust the character class
             words[i] = words[i].replaceAll("[^\\w]", "");
         }
-        
-        MyUtil.getSortedResults(words,entities);
+
+        ArrayList<ContentToSort> contentToSorts= MyUtil.getNonSortedResults(words, entities);
+        ArrayList<Content> results= MyUtil.contentToSortToContent(contentToSorts);
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("application/xml");
-
-        out.println("");
+        out.println(MyUtil.contentsListToXML(results));
         return;
     }
 }
