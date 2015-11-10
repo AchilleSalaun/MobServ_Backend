@@ -12,14 +12,19 @@ public class RelationToUser extends Relation{
 
     private User user;
 
-    public RelationToUser(Key key) {super(key);}
-    public RelationToUser(String id) {super(id);}
+    public RelationToUser(Key key) {
+        super(key);
+        setUserFromDB();}
+    public RelationToUser(String id) {super(id);
+        setUserFromDB();}
 
     public RelationToUser(Key key, String relationType, String comment, String contentId, String userId) {
-        super(key, relationType, comment, contentId, userId);}
+        super(key, relationType, comment, contentId, userId);
+        setUserFromDB();}
 
     public RelationToUser(String relationType, String comment, String contentId, String userId) {
-        super(relationType, comment, contentId, userId);}
+        super(relationType, comment, contentId, userId);
+        setUserFromDB();}
 
     public User getUser() {return user;}
 
