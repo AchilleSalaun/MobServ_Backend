@@ -43,7 +43,7 @@ public class SaveContactServlet extends javax.servlet.http.HttpServlet {
         // Save in the Datastore
         datastore.put(contact);
         resp.getWriter().println("User " + userName + " saved with key " +
-                KeyFactory.keyToString(contact.getKey()) + "!");
+                KeyFactory.keyToString(contact.getKey()));
 
         //Go to appengine.google.com to see the DB
     }

@@ -49,7 +49,7 @@ public class SaveContentServlet extends javax.servlet.http.HttpServlet{
         // Save in the Datastore
         datastore.put(content);
         resp.getWriter().println("Content"+ title + " saved with key " +
-                KeyFactory.keyToString(content.getKey()) + "!");
+                KeyFactory.keyToString(content.getKey()));
 
         //Go to appengine.google.com to see the DB
     }

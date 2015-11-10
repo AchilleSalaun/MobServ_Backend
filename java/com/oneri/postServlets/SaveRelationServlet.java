@@ -45,7 +45,7 @@ public class SaveRelationServlet  extends javax.servlet.http.HttpServlet {
         // Save in the Datastore
         datastore.put(relation);
         resp.getWriter().println("Relation saved with key " +
-                KeyFactory.keyToString(relation.getKey()) + "!");
+                KeyFactory.keyToString(relation.getKey()));
 
         //Go to appengine.google.com to see the DB
     }
