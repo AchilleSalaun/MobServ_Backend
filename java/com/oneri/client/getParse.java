@@ -29,8 +29,8 @@ public class getParse
             System.out.println("le titre de la page" +titre);
             //System.out.println("le texte"+text);
 
-            System.out.println("lien 2"+linkText);
-            System.out.println("lien 3"+linkOuterH);
+            System.out.println("le texte entre les balises :"+linkText);
+            System.out.println("la balise entière"+linkOuterH);
 
         }catch(IOException e){
 
