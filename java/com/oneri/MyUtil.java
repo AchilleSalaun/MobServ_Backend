@@ -6,6 +6,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.appengine.labs.repackaged.org.json.XML;
 import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.User;
+import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.database.ObjectFromDB;
 import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
@@ -55,10 +56,10 @@ public class MyUtil {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
     }
 
-    public static ArrayList<Content> toArray(ExtensiveUser user){
-        ArrayList<Content> myList = new ArrayList<>();
+    public static ArrayList<ExtensiveContent> toArray(ExtensiveUser user){
+        ArrayList<ExtensiveContent> myList = new ArrayList<>();
         for(int i = 0; i<user.getContentUserLikes().size();i++){
-            myList.add(user.getContentUserLikes().get(i).getContent());
+            myList.add((ExtensiveContent) user.getContentUserLikes().get(i).getContent());
         }
         return myList;
     }

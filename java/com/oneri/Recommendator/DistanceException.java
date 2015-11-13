@@ -1,6 +1,4 @@
-package com.oneri.Recommandator;
-
-import sun.rmi.runtime.Log;
+package com.oneri.Recommendator;
 
 /**
  * Created by Achille on 01/11/2015.
