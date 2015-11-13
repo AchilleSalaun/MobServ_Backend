@@ -69,7 +69,13 @@ public class Recommendator
 
     public static ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser user)
     {
+        ArrayList<ExtensiveUser> users = MyUtil.userFromDB(50);
+        ArrayList<ExtensiveUser> similarUser = new ArrayList<ExtensiveUser>() ;
+        for(ExtensiveUser u : users)
+        {
 
+        }
+        return similarUser ;
     }
 
 
@@ -98,12 +104,8 @@ public class Recommendator
 
     public static ArrayList<ExtensiveContent> getSimilarContentTo(ExtensiveContent content)
     {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-        // Take the list of contacts ordered by name
-        Query query = new Query("Content").addSort("Title", Query.SortDirection.ASCENDING);
-        List<Entity> contents = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
-
+        ArrayList<ExtensiveContent> contents = MyUtil.contentFromDB(50);
         ArrayList<ExtensiveContent> similarContent = new ArrayList<ExtensiveContent>() ;
         for(ExtensiveContent c : contents)
         {

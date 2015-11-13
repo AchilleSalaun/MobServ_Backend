@@ -63,4 +63,16 @@ public class MyUtil {
         }
         return myList;
     }
+
+    public static ArrayList<ExtensiveUser> userFromDB(int n)
+    {
+        ArrayList<ExtensiveUser> list = new ArrayList<ExtensiveUser>() ;
+        return list ;
+    }
+
+    public static ArrayList<ExtensiveContent> contentFromDB(int n)
+    {
+        ArrayList<ExtensiveContent> list = new ArrayList<ExtensiveContent>() ;
+        return list ;
+    }
 }
