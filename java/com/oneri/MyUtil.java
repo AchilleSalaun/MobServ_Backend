@@ -1,5 +1,10 @@
 package com.oneri;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
@@ -12,6 +17,8 @@ import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Gaby on 29/10/2015.
@@ -67,12 +74,32 @@ public class MyUtil {
     public static ArrayList<ExtensiveUser> userFromDB(int n)
     {
         ArrayList<ExtensiveUser> list = new ArrayList<ExtensiveUser>() ;
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        // Take the list of contacts ordered by name
+        Query query = new Query("Contact").addSort("Name", Query.SortDirection.ASCENDING);
+        List<Entity> usersEntity = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+        while(usersEntity.size()>0 && list.size()<n){
+            Random randomGenerator = new Random();
+            int randomInt = randomGenerator.nextInt(usersEntity.size());
+            list.add(new ExtensiveUser(usersEntity.get(randomInt).getKey()));
+            usersEntity.remove(randomInt);
+        }
         return list ;
     }
 
     public static ArrayList<ExtensiveContent> contentFromDB(int n)
     {
         ArrayList<ExtensiveContent> list = new ArrayList<ExtensiveContent>() ;
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        // Take the list of contacts ordered by name
+        Query query = new Query("Content").addSort("Title", Query.SortDirection.ASCENDING);
+        List<Entity> contentsEntity = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+        while(contentsEntity.size()>0 && list.size()<n){
+            Random randomGenerator = new Random();
+            int randomInt = randomGenerator.nextInt(contentsEntity.size());
+            list.add(new ExtensiveContent(contentsEntity.get(randomInt).getKey()));
+            contentsEntity.remove(randomInt);
+        }
         return list ;
     }
 }
