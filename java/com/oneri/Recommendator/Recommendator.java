@@ -1,19 +1,12 @@
 package com.oneri.Recommendator;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Query;
 import com.oneri.MyUtil;
 import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -23,6 +16,11 @@ import javafx.collections.transformation.SortedList;
  */
 public class Recommendator
 {
+    /** Attributes **/
+    // size of the representative sample taken from the database
+    private final static int n_sample =500 ;
+    // number of suggested content (n_recommendation < n_sample)
+    private final static int n_recommendation = 100 ;
 
     /** User Oriented **/
     public static double distanceUser(ExtensiveUser user1, ExtensiveUser user2)
@@ -67,14 +65,38 @@ public class Recommendator
         return Math.sqrt(d) ;
     }
 
-    public static ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser user)
+    public static SortedList<ExtensiveUser> sortUserList(final ExtensiveUser reference, ArrayList<ExtensiveUser> list)
     {
-        ArrayList<ExtensiveUser> users = MyUtil.userFromDB(50);
-        ArrayList<ExtensiveUser> similarUser = new ArrayList<ExtensiveUser>() ;
-        for(ExtensiveUser u : users)
+        Comparator<ExtensiveUser> comparator = new Comparator<ExtensiveUser>()
         {
+            // what is the closest object "o1" or "o2" from the element "reference" ?
+            @Override
+            public int compare(ExtensiveUser o1, ExtensiveUser o2)
+            {
+                double d1 = distanceUser(o1, reference);
 
+                double d2 = distanceUser(o2, reference);
+
+                return((int) Math.signum(d1-d2)) ;
+            }
+        };
+
+        return new SortedList<ExtensiveUser>((ObservableList<? extends ExtensiveUser>) list, comparator);
+    }
+
+    public static ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
+    {
+        ArrayList<ExtensiveUser> similarUser = MyUtil.userFromDB(n_sample);
+        SortedList<ExtensiveUser> sortedUsers = sortUserList(reference, similarUser);
+
+        similarUser.clear() ;
+
+        for(int i = 0 ; i< n_recommendation; i++)
+        {
+            similarUser.add(sortedUsers.get(1));
+            sortedUsers.remove(1);
         }
+
         return similarUser ;
     }
 
@@ -102,18 +124,6 @@ public class Recommendator
         return Math.sqrt(d) ;
     }
 
-    public static ArrayList<ExtensiveContent> getSimilarContentTo(ExtensiveContent content)
-    {
-
-        ArrayList<ExtensiveContent> contents = MyUtil.contentFromDB(50);
-        ArrayList<ExtensiveContent> similarContent = new ArrayList<ExtensiveContent>() ;
-        for(ExtensiveContent c : contents)
-        {
-
-        }
-        return similarContent ;
-    }
-
     // give the distance with the closest element of the list
     public static double distanceObjectToList(ExtensiveContent object, ArrayList<ExtensiveContent> list)
     {
@@ -124,7 +134,9 @@ public class Recommendator
         return d ;
     }
 
-    public static SortedList<ExtensiveContent> sortList(final ArrayList<ExtensiveContent> reference, ArrayList<ExtensiveContent> list)
+     // WARNING : sortContentList is quite different to sortUserList :
+     // reference is a list of content in the first case whereas it's an unique user in the second one
+    public static SortedList<ExtensiveContent> sortContentList(final ArrayList<ExtensiveContent> reference, ArrayList<ExtensiveContent> list)
     {
         Comparator<ExtensiveContent> comparator = new Comparator<ExtensiveContent>()
         {
@@ -132,11 +144,9 @@ public class Recommendator
             @Override
             public int compare(ExtensiveContent o1, ExtensiveContent o2)
             {
-                double d1 = 0;
-                d1 = distanceObjectToList(o1, reference);
+                double d1 = distanceObjectToList(o1, reference);
 
-                double d2 = 0;
-                d2 = distanceObjectToList(o2,reference);
+                double d2 = distanceObjectToList(o2, reference);
 
                 return((int) Math.signum(d1-d2)) ;
             }
@@ -145,8 +155,24 @@ public class Recommendator
         return new SortedList<ExtensiveContent>((ObservableList<? extends ExtensiveContent>) list, comparator);
     }
 
+    public static ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
+    {
+        ArrayList<ExtensiveContent> similarContent = MyUtil.contentFromDB(n_sample);
+        SortedList<ExtensiveContent> sortedContents = sortContentList(reference, similarContent);
+
+        similarContent.clear();
+
+        for(int i = 0 ; i< n_recommendation; i++)
+        {
+            similarContent.add(sortedContents.get(1));
+            sortedContents.remove(1);
+        }
+
+        return similarContent ;
+    }
+
     // remove redundant items in the SortedList
-    public static void killPairs(SortedList<ExtensiveContent> list)
+    public static void killContentPairs(SortedList<ExtensiveContent> list)
     {
         int size = list.size() ;
         for(int i = 0 ; i<size-1 ; i++)
@@ -163,26 +189,24 @@ public class Recommendator
     public static SortedList<ExtensiveContent> recommend(ExtensiveUser user)
     {
         // First, we look for similar users :
-        ArrayList<ExtensiveUser> similarUsers = getSimilarUserTo(user) ; /** A implementer **/
+        ArrayList<ExtensiveUser> similarUsers = getSimilarUserTo(user) ;
 
         // We get all the content they like in the same list
-        ArrayList<ExtensiveContent> recommendedContent = new ArrayList<ExtensiveContent>() ;
+        ArrayList<ExtensiveContent> recommendedContent = new ArrayList<>() ;
         for(ExtensiveUser u : similarUsers)
-        {recommendedContent.addAll((Collection<? extends ExtensiveContent>) MyUtil.toArray(u));}
+        {recommendedContent.addAll(MyUtil.toArray(u));}
 
         // We add similar content to each content liked by the similar users :
-        ArrayList<ExtensiveContent> aux = new ArrayList<ExtensiveContent>() ;
-        for(ExtensiveContent c : recommendedContent)
-        {
-            aux.addAll(getSimilarContentTo(c)) ; /** A implementer **/
-        }
-        recommendedContent = aux ;
+        ArrayList<ExtensiveContent> aux = new ArrayList<>() ;
+
+        aux.addAll(getSimilarContentTo(recommendedContent)) ;
+        recommendedContent.addAll(aux);
 
         // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user)) as reference :
-        SortedList<ExtensiveContent> recommendation = sortList(MyUtil.toArray(user), recommendedContent) ;
+        SortedList<ExtensiveContent> recommendation = sortContentList(MyUtil.toArray(user), recommendedContent) ;
 
         /** remove any redundancy **/
-        killPairs(recommendation) ;
+        killContentPairs(recommendation) ;
 
         return recommendation ;
     }
