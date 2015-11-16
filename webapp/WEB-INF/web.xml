@@ -59,42 +59,42 @@
 
     <servlet-mapping>
         <servlet-name>GetCommentsServlet</servlet-name>
-        <url-pattern>/getComments</url-pattern>
+        <url-pattern>/getComments</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>GetLikedContentServlet</servlet-name>
-        <url-pattern>/getLikedContent</url-pattern>
+        <url-pattern>/getLikedContent</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>GetListContentServlet</servlet-name>
-        <url-pattern>/getListContent</url-pattern>
+        <url-pattern>/getListContent</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>GetMyContentServlet</servlet-name>
-        <url-pattern>/getMyContent</url-pattern>
+        <url-pattern>/getMyContent</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>GetMyInfosServlet</servlet-name>
-        <url-pattern>/getMyInfos</url-pattern>
+        <url-pattern>/getMyInfos</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>GetRandomContentServlet</servlet-name>
-        <url-pattern>/getRandomContent</url-pattern>
+        <url-pattern>/getRandomContent</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>GetRecommendationsServlet</servlet-name>
-        <url-pattern>/getRecommendations</url-pattern>
+        <url-pattern>/getRecommendations</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>GetSearchResultsServlet</servlet-name>
-        <url-pattern>/getSearchResults</url-pattern>
+        <url-pattern>/getSearchResults</url-pattern><!--Works-->
     </servlet-mapping>
 
 
@@ -103,19 +103,19 @@
     <servlet-mapping>
         <servlet-name>SaveContactServlet</servlet-name>
         <!--l'URL associée-->
-        <url-pattern>/saveContact</url-pattern>
+        <url-pattern>/saveContact</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>SaveRelationServlet</servlet-name>
         <!--l'URL associée-->
-        <url-pattern>/saveRelation</url-pattern>
+        <url-pattern>/saveRelation</url-pattern><!--Works-->
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>SaveContentServlet</servlet-name>
         <!--l'URL associée-->
-        <url-pattern>/saveContent</url-pattern>
+        <url-pattern>/saveContent</url-pattern><!--Works-->
     </servlet-mapping>
 
 

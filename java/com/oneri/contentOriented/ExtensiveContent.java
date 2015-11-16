@@ -6,7 +6,13 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.appengine.labs.repackaged.org.json.XML;
 import com.oneri.SuperClasses.Content;
+import com.oneri.SuperClasses.User;
+import com.oneri.database.ObjectFromDB;
 import com.oneri.userOriented.RelationToContent;
 
 import java.util.ArrayList;
@@ -17,12 +23,12 @@ import java.util.List;
  */
 public class ExtensiveContent extends Content{
 
-    private ArrayList<RelationToContent> onListOf;
-    private ArrayList<RelationToContent> usersWhoLikes;
-    private ArrayList<RelationToContent> usersWhoDoesntLike;
+    private ArrayList<RelationToUser> onListOf;
+    private ArrayList<RelationToUser> usersWhoLikes;
+    private ArrayList<RelationToUser> usersWhoDoesntLike;
 
     public ExtensiveContent(String commercialLink, String contentType, String creator, String description, String imageURL, String title,
-                            ArrayList<RelationToContent> onListOf, ArrayList<RelationToContent> usersWhoLikes, ArrayList<RelationToContent> userWhoDoesntLike) {
+                            ArrayList<RelationToUser> onListOf, ArrayList<RelationToUser> usersWhoLikes, ArrayList<RelationToUser> userWhoDoesntLike) {
         super(commercialLink,contentType,creator,description,imageURL,title);
         this.onListOf = onListOf;
         this.usersWhoLikes = usersWhoLikes;
@@ -30,7 +36,7 @@ public class ExtensiveContent extends Content{
     }
 
     public ExtensiveContent(Key key, String commercialLink, String contentType, String creator, String description, String imageURL, String title,
-                            ArrayList<RelationToContent> onListOf, ArrayList<RelationToContent> usersWhoLikes, ArrayList<RelationToContent> userWhoDoesntLike) {
+                            ArrayList<RelationToUser> onListOf, ArrayList<RelationToUser> usersWhoLikes, ArrayList<RelationToUser> userWhoDoesntLike) {
         super(key, commercialLink,contentType,creator,description,imageURL,title);
         this.onListOf = onListOf;
         this.usersWhoLikes = usersWhoLikes;
@@ -73,21 +79,21 @@ public class ExtensiveContent extends Content{
         List<Entity> contents = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
         switch (list){
             case "myList":
-                this.onListOf = new ArrayList<RelationToContent>();
+                this.onListOf = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.onListOf.add(new RelationToContent(contents.get(i).getKey()));
+                    this.onListOf.add(new RelationToUser(contents.get(i).getKey()));
                 }
                 break;
             case "contentUserLikes":
-                this.usersWhoLikes = new ArrayList<RelationToContent>();
+                this.usersWhoLikes = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.usersWhoLikes.add(new RelationToContent(contents.get(i).getKey()));
+                    this.usersWhoLikes.add(new RelationToUser(contents.get(i).getKey()));
                 }
                 break;
             case "userWhoDoesntLike":
-                this.usersWhoDoesntLike = new ArrayList<RelationToContent>();
+                this.usersWhoDoesntLike = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.usersWhoDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
+                    this.usersWhoDoesntLike.add(new RelationToUser(contents.get(i).getKey()));
                 }
                 break;
             default: System.out.println("regarde dans le switch");
@@ -102,14 +108,37 @@ public class ExtensiveContent extends Content{
 
     }
 
-    public void putListInDB(ArrayList<RelationToContent> relations){
+    public void putListInDB(ArrayList<RelationToUser> relations){
         for(int i = 0; i<relations.size();i++){
             relations.get(i).putInDB();
         }
     }
 
     /* GETTERS */
-    public ArrayList<RelationToContent> getUsersWhoLikes() {return this.usersWhoLikes ;}
-    public ArrayList<RelationToContent> getUsersWhoDoesntLike() {return this.usersWhoDoesntLike ;}
+    public ArrayList<RelationToUser> getUsersWhoLikes() {return this.usersWhoLikes ;}
+    public ArrayList<RelationToUser> getUsersWhoDoesntLike() {return this.usersWhoDoesntLike ;}
 
+    public String commentsToXML(){
+        JSONArray results = new JSONArray();
+        ObjectFromDB content;
+        for (int i = 0; i < usersWhoLikes.size(); i++) {
+            JSONObject relationJSON = new JSONObject();
+            RelationToUser relation = usersWhoLikes.get(i);
+            relation.toJSON(relationJSON);
+            results.put(relationJSON);
+
+            JSONObject userJSON = new JSONObject();
+            User user = usersWhoLikes.get(i).getUser();
+            user.toJSON(userJSON);
+            results.put(userJSON);
+        }
+        String xml = null;
+        try {
+            xml = XML.toString(results, "song");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //return results.toString();
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+    }
 }
