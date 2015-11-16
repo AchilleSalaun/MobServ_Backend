@@ -2,6 +2,7 @@ package com.oneri.Recommendator;
 
 import com.oneri.MyUtil;
 import com.oneri.contentOriented.ExtensiveContent;
+import com.oneri.contentOriented.RelationToUser;
 import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
 
@@ -107,14 +108,14 @@ public class Recommendator
     {
         int d = 0 ;
 
-        for(RelationToContent r1 : content1.getUsersWhoLikes())
+        for(RelationToUser r1 : content1.getUsersWhoLikes())
         {
             if(content2.getUsersWhoDoesntLike().contains(r1)) d=d+3 ;
             else if (content2.getUsersWhoLikes().contains(r1)) d-- ;
             else d++ ;
         }
 
-        for(RelationToContent r1 : content1.getUsersWhoDoesntLike())
+        for(RelationToUser r1 : content1.getUsersWhoDoesntLike())
         {
             if(content2.getUsersWhoDoesntLike().contains(r1)) d=d+3 ;
             else if (content2.getUsersWhoDoesntLike().contains(r1)) d-- ;
