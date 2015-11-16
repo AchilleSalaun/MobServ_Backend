@@ -156,4 +156,23 @@ public class MyUtil {
         }
         return result;
     }
+
+    public  static  String sortedListToXML(SortedList<ExtensiveContent> myList){
+        JSONArray results = new JSONArray();
+        ObjectFromDB content;
+        for (int i = 0; i < myList.size(); i++) {
+            JSONObject contactJSON = new JSONObject();
+            content = myList.get(i);
+            content.toJSON(contactJSON);
+            results.put(contactJSON);
+        }
+        String xml = null;
+        try {
+            xml = XML.toString(results, "song");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //return results.toString();
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+    }
 }
