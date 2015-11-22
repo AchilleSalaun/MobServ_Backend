@@ -46,8 +46,8 @@ public class GetRecommendationsServlet extends HttpServlet {
         }
         PrintWriter out = resp.getWriter();
 
-        resp.setContentType("application/xml");
-        out.println(MyUtil.contentsListToXML(contentList));
+        resp.setContentType("application/json");
+        out.println(MyUtil.contentsListToJSON(contentList));
         return;
     }
 }

@@ -49,8 +49,8 @@ public class GetSearchResultsServlet extends HttpServlet {
         ArrayList<Content> results= MyUtil.contentToSortToContent(contentToSorts);
         PrintWriter out = resp.getWriter();
 
-        resp.setContentType("application/xml");
-        out.println(MyUtil.contentsListToXML(results));
+        resp.setContentType("application/json");
+        out.println(MyUtil.contentsListToJSON(results));
         return;
     }
 }
