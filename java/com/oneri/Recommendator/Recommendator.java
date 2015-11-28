@@ -17,9 +17,9 @@ public class Recommendator
 {
     /** Attributes **/
     // size of the representative sample taken from the database
-    private final static int n_sample =2 ;
+    private final static int n_sample =100 ;
     // number of suggested content (n_recommendation < n_sample)
-    private final static int n_recommendation = 1 ;
+    private final static int n_recommendation = 50 ;
 
     /** User Oriented **/
     public static double distanceUser(ExtensiveUser user1, ExtensiveUser user2)
@@ -91,7 +91,9 @@ public class Recommendator
 
         ArrayList<ExtensiveUser> similarUser = new ArrayList<>();
 
-        for(int i = 0 ; i< n_recommendation; i++)
+        int m = Math.min(n_recommendation,2);
+
+        for(int i = 0 ; i< m; i++)
         {
             similarUser.add(sortedUsers.get(0));
             sortedUsers.remove(0);
@@ -163,7 +165,8 @@ public class Recommendator
 
         ArrayList<ExtensiveContent> similarContent = new ArrayList<>() ;
 
-        for(int i = 0 ; i< n_recommendation; i++)
+        int m = Math.min(n_recommendation,2);
+        for(int i = 0 ; i< m ; i++)
         {
             similarContent.add(sortedContents.get(0));
             sortedContents.remove(0);
