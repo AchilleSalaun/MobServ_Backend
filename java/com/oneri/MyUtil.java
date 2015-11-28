@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
+import javafx.collections.transformation.SortedList;
+
 /**
  * Created by Gaby on 29/10/2015.
  */
@@ -157,7 +159,7 @@ public class MyUtil {
         return result;
     }
 
-    public  static  String sortedListToXML(SortedList<ExtensiveContent> myList){
+    public  static  String sortedListToXML(ArrayList<ExtensiveContent> myList){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < myList.size(); i++) {

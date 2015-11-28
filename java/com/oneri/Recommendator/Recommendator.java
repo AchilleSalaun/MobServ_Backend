@@ -7,10 +7,8 @@ import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 
 /**
  * Created by Achille on 01/11/2015.
@@ -66,7 +64,7 @@ public class Recommendator
         return Math.sqrt(d) ;
     }
 
-    public static SortedList<ExtensiveUser> sortUserList(final ExtensiveUser reference, ArrayList<ExtensiveUser> list)
+    public static ArrayList<ExtensiveUser> sortUserList(final ExtensiveUser reference, ArrayList<ExtensiveUser> list)
     {
         Comparator<ExtensiveUser> comparator = new Comparator<ExtensiveUser>()
         {
@@ -82,13 +80,14 @@ public class Recommendator
             }
         };
 
-        return new SortedList<ExtensiveUser>((ObservableList<? extends ExtensiveUser>) list, comparator);
+        Collections.sort(list,comparator) ;
+        return list ;
     }
 
     public static ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
     {
         ArrayList<ExtensiveUser> similarUser = MyUtil.userFromDB(n_sample);
-        SortedList<ExtensiveUser> sortedUsers = sortUserList(reference, similarUser);
+        ArrayList<ExtensiveUser> sortedUsers = sortUserList(reference, similarUser);
 
         similarUser.clear() ;
 
@@ -137,7 +136,7 @@ public class Recommendator
 
      // WARNING : sortContentList is quite different to sortUserList :
      // reference is a list of content in the first case whereas it's an unique user in the second one
-    public static SortedList<ExtensiveContent> sortContentList(final ArrayList<ExtensiveContent> reference, ArrayList<ExtensiveContent> list)
+    public static ArrayList<ExtensiveContent> sortContentList(final ArrayList<ExtensiveContent> reference, ArrayList<ExtensiveContent> list)
     {
         Comparator<ExtensiveContent> comparator = new Comparator<ExtensiveContent>()
         {
@@ -153,13 +152,14 @@ public class Recommendator
             }
         };
 
-        return new SortedList<ExtensiveContent>((ObservableList<? extends ExtensiveContent>) list, comparator);
+        Collections.sort(list, comparator) ;
+        return list ;
     }
 
     public static ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
     {
         ArrayList<ExtensiveContent> similarContent = MyUtil.contentFromDB(n_sample);
-        SortedList<ExtensiveContent> sortedContents = sortContentList(reference, similarContent);
+        ArrayList<ExtensiveContent> sortedContents = sortContentList(reference, similarContent);
 
         similarContent.clear();
 
@@ -173,7 +173,7 @@ public class Recommendator
     }
 
     // remove redundant items in the SortedList
-    public static void killContentPairs(SortedList<ExtensiveContent> list)
+    public static void killContentPairs(ArrayList<ExtensiveContent> list)
     {
         int size = list.size() ;
         for(int i = 0 ; i<size-1 ; i++)
@@ -187,7 +187,7 @@ public class Recommendator
 
     /** General point of view **/
     // The ultimate goal !!!
-    public static SortedList<ExtensiveContent> recommend(ExtensiveUser user)
+    public static ArrayList<ExtensiveContent> recommend(ExtensiveUser user)
     {
         // First, we look for similar users :
         ArrayList<ExtensiveUser> similarUsers = getSimilarUserTo(user) ;
@@ -204,7 +204,7 @@ public class Recommendator
         recommendedContent.addAll(aux);
 
         // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user)) as reference :
-        SortedList<ExtensiveContent> recommendation = sortContentList(MyUtil.toArray(user), recommendedContent) ;
+        ArrayList<ExtensiveContent> recommendation = sortContentList(MyUtil.toArray(user), recommendedContent) ;
 
         /** remove any redundancy **/
         killContentPairs(recommendation) ;

@@ -42,6 +42,11 @@
         <servlet-name>GetSearchResultsServlet</servlet-name>
         <servlet-class>com.oneri.getServlets.GetSearchResultsServlet</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>TestAchilleServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.TestAchilleServlet</servlet-class>
+    </servlet>
     <!--********************POST SERVLETS****************************-->
     <servlet>
         <servlet-name>SaveContactServlet</servlet-name>
@@ -95,6 +100,11 @@
     <servlet-mapping>
         <servlet-name>GetSearchResultsServlet</servlet-name>
         <url-pattern>/getSearchResults</url-pattern><!--Works-->
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>TestAchilleServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
     </servlet-mapping>
 
 
