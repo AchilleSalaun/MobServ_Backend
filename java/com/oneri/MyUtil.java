@@ -96,17 +96,23 @@ public class MyUtil {
         return list ;
     }
 
-    public static ArrayList<ExtensiveContent> contentFromDB(int n) {
+    public static ArrayList<ExtensiveContent> contentFromDB(int n, String type) {
         ArrayList<ExtensiveContent> list = new ArrayList<ExtensiveContent>();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         // Take the list of contacts ordered by name
+
+        /*** Query à modifier : insertion du filtre "TYPE" ***/
         Query query = new Query("Content").addSort("Title", Query.SortDirection.ASCENDING);
+        /*****************************************************/
+
         List<Entity> contentsEntity = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
         while (contentsEntity.size() > 0 && list.size() < n) {
             Random randomGenerator = new Random();
             int randomInt = randomGenerator.nextInt(contentsEntity.size());
+
             list.add(new ExtensiveContent(contentsEntity.get(randomInt).getKey()));
             contentsEntity.remove(randomInt);
+
         }
         return list;
     }

@@ -21,6 +21,7 @@ public class Recommendator
     // number of suggested content (n_recommendation < n_sample)
     private final static int n_recommendation = 50 ;
 
+
     /** User Oriented **/
     public static double distanceUser(ExtensiveUser user1, ExtensiveUser user2)
     {
@@ -158,9 +159,9 @@ public class Recommendator
         return list ;
     }
 
-    public static ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
+    public static ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference, String type)
     {
-        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(n_sample);
+        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(n_sample, type);
         ArrayList<ExtensiveContent> sortedContents = sortContentList(reference, sampleContent);
 
         ArrayList<ExtensiveContent> similarContent = new ArrayList<>() ;
@@ -190,7 +191,7 @@ public class Recommendator
 
     /** General point of view **/
     // The ultimate goal !!!
-    public static ArrayList<ExtensiveContent> recommend(ExtensiveUser user)
+    public static ArrayList<ExtensiveContent> recommend(ExtensiveUser user, String type)
     {
         // First, we look for similar users :
         ArrayList<ExtensiveUser> similarUsers = getSimilarUserTo(user) ;
@@ -203,7 +204,7 @@ public class Recommendator
         // We add similar content to each content liked by the similar users :
         ArrayList<ExtensiveContent> aux = new ArrayList<>() ;
 
-        aux.addAll(getSimilarContentTo(recommendedContent)) ;
+        aux.addAll(getSimilarContentTo(recommendedContent,type)) ;
         recommendedContent.addAll(aux);
 
         // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user)) as reference :
