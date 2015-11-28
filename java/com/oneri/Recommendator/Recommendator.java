@@ -17,9 +17,9 @@ public class Recommendator
 {
     /** Attributes **/
     // size of the representative sample taken from the database
-    private final static int n_sample =500 ;
+    private final static int n_sample =2 ;
     // number of suggested content (n_recommendation < n_sample)
-    private final static int n_recommendation = 100 ;
+    private final static int n_recommendation = 1 ;
 
     /** User Oriented **/
     public static double distanceUser(ExtensiveUser user1, ExtensiveUser user2)
@@ -86,15 +86,15 @@ public class Recommendator
 
     public static ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
     {
-        ArrayList<ExtensiveUser> similarUser = MyUtil.userFromDB(n_sample);
-        ArrayList<ExtensiveUser> sortedUsers = sortUserList(reference, similarUser);
+        ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(n_sample);
+        ArrayList<ExtensiveUser> sortedUsers = sortUserList(reference, sampleUser);
 
-        similarUser.clear() ;
+        ArrayList<ExtensiveUser> similarUser = new ArrayList<>();
 
         for(int i = 0 ; i< n_recommendation; i++)
         {
-            similarUser.add(sortedUsers.get(1));
-            sortedUsers.remove(1);
+            similarUser.add(sortedUsers.get(0));
+            sortedUsers.remove(0);
         }
 
         return similarUser ;
@@ -158,15 +158,15 @@ public class Recommendator
 
     public static ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
     {
-        ArrayList<ExtensiveContent> similarContent = MyUtil.contentFromDB(n_sample);
-        ArrayList<ExtensiveContent> sortedContents = sortContentList(reference, similarContent);
+        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(n_sample);
+        ArrayList<ExtensiveContent> sortedContents = sortContentList(reference, sampleContent);
 
-        similarContent.clear();
+        ArrayList<ExtensiveContent> similarContent = new ArrayList<>() ;
 
         for(int i = 0 ; i< n_recommendation; i++)
         {
-            similarContent.add(sortedContents.get(1));
-            sortedContents.remove(1);
+            similarContent.add(sortedContents.get(0));
+            sortedContents.remove(0);
         }
 
         return similarContent ;
