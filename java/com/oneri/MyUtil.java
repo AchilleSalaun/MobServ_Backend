@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
-import javafx.collections.transformation.SortedList;
+//import javafx.collections.transformation.SortedList;
 
 /**
  * Created by Gaby on 29/10/2015.
@@ -102,7 +102,15 @@ public class MyUtil {
         // Take the list of contacts ordered by name
 
         /*** Query à modifier : insertion du filtre "TYPE" ***/
+
+        Query.Filter contentTypeFilter =
+                new Query.FilterPredicate("ContentType",
+                        Query.FilterOperator.EQUAL,
+                        type);
+
+
         Query query = new Query("Content").addSort("Title", Query.SortDirection.ASCENDING);
+        query.setFilter(contentTypeFilter);
         /*****************************************************/
 
         List<Entity> contentsEntity = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
