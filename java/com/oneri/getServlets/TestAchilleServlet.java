@@ -28,8 +28,14 @@ public class TestAchilleServlet extends HttpServlet {
             return;
         }
 
+        String contentType = req.getParameter("contentType");
+        if (contentType == null){
+            int a = 0;
+            return;
+        }
+
         ExtensiveUser user1 = new ExtensiveUser(email,1);
-        ArrayList<ExtensiveContent> list1 = Recommendator.recommend(user1);
+        ArrayList<ExtensiveContent> list1 = Recommendator.recommend(user1, contentType);
         PrintWriter out = resp.getWriter();
 
         out.println(MyUtil.sortedListToXML(list1));
