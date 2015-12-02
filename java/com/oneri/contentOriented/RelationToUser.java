@@ -31,5 +31,5 @@ public class RelationToUser extends Relation{
 
     public void setUser(User user) {this.user = user;}
 
-    public void setUserFromDB(){this.user = new User(KeyFactory.stringToKey(getEmail()));}
+    public void setUserFromDB(){this.user = new User(getEmail(),0);}
 }

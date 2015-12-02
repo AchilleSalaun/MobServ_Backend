@@ -48,6 +48,8 @@ public class Content extends ObjectFromDB {
             setKey(result.getKey());
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
+            this.title="PB content String title=" + title + "String contentType=" +  contentType ;
+            this.creator = key.toString();
         }
     }
     public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {

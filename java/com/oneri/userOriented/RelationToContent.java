@@ -45,7 +45,7 @@ public class RelationToContent extends Relation {
 
     public void setContent(Content content) {this.content = content;}
 
-    public void setContentFromDB(){this.content = new Content(KeyFactory.stringToKey(getTitle() + getContentType()));}
+    public void setContentFromDB(){this.content = new Content(getTitle(), getContentType());}
 
 
 

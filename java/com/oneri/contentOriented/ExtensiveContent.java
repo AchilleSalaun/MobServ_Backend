@@ -62,17 +62,21 @@ public class ExtensiveContent extends Content{
 
     //Cette fonction est à revoir (mais fonctionnne)
     public void generateContentList(String filter,String list){
-        Query.Filter userFilter =
-                new Query.FilterPredicate("ContentId",
+        Query.Filter titleFilter =
+                new Query.FilterPredicate("Title",
                         Query.FilterOperator.EQUAL,
-                        getId());
+                        getTitle());
+        Query.Filter contentTypeFilter =
+                new Query.FilterPredicate("ContentType",
+                        Query.FilterOperator.EQUAL,
+                        getContentType());
 
         Query.Filter relationTypeFilter =
                 new Query.FilterPredicate("RelationType",
                         Query.FilterOperator.EQUAL,
                         filter);
 
-        Query.Filter validFilter = Query.CompositeFilterOperator.and(userFilter, relationTypeFilter);
+        Query.Filter validFilter = Query.CompositeFilterOperator.and(titleFilter, contentTypeFilter, relationTypeFilter);
 
         Query q = new Query("Relation").setFilter(validFilter);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
