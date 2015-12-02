@@ -53,6 +53,10 @@ public class ExtensiveContent extends Content{
         super(id);
         generateRelations();
     }
+    public ExtensiveContent(String title, String contentType) {
+        super(title, contentType);
+        generateRelations();
+    }
 
     public void generateRelations(){
         generateContentList("waiting","myList");
@@ -122,7 +126,7 @@ public class ExtensiveContent extends Content{
     public ArrayList<RelationToUser> getUsersWhoLikes() {return this.usersWhoLikes ;}
     public ArrayList<RelationToUser> getUsersWhoDoesntLike() {return this.usersWhoDoesntLike ;}
 
-    public String commentsToXML(){
+    public String commentsToJSON(){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < usersWhoLikes.size(); i++) {
@@ -136,13 +140,6 @@ public class ExtensiveContent extends Content{
             user.toJSON(userJSON);
             results.put(userJSON);
         }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+        return results.toString();
     }
 }

@@ -38,6 +38,6 @@ public class TestAchilleServlet extends HttpServlet {
         ArrayList<ExtensiveContent> list1 = Recommendator.recommend(user1, contentType);
         PrintWriter out = resp.getWriter();
 
-        out.println(MyUtil.sortedListToXML(list1));
+        out.println(MyUtil.sortedListToJSON(list1));
     }
 }

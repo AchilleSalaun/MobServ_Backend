@@ -17,16 +17,21 @@ public class GetCommentsServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        String contentId = req.getParameter("contentId");
-        if (contentId == null){
+        String title = req.getParameter("title");
+        if (title == null){
             return;
         }
 
-        ExtensiveContent extensiveContent = new ExtensiveContent(contentId);
+        String contentType = req.getParameter("contentType");
+        if (contentType == null){
+            return;
+        }
+
+        ExtensiveContent extensiveContent = new ExtensiveContent(title, contentType);
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("application/json");
-        out.println(extensiveContent.commentsToXML());
+        out.println(extensiveContent.commentsToJSON());
         return;
     }
 }
