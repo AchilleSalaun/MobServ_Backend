@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public class MyUtil {
 
-    public static String usersListToXML(ArrayList<User> myList){
+    public static String usersListToJSON(ArrayList<User> myList){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < myList.size(); i++) {
@@ -43,17 +43,10 @@ public class MyUtil {
             content.toJSON(contactJSON);
             results.put(contactJSON);
         }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+        return results.toString();
     }
 
-    public static String contentsListToXML(ArrayList<Content> myList){
+    public static String contentsListToJSON(ArrayList<Content> myList){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < myList.size(); i++) {
@@ -62,14 +55,7 @@ public class MyUtil {
             content.toJSON(contactJSON);
             results.put(contactJSON);
         }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+        return results.toString();
     }
 
     public static ArrayList<ExtensiveContent> toArray(ExtensiveUser user){

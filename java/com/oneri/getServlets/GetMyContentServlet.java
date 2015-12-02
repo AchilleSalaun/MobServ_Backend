@@ -32,7 +32,7 @@ public class GetMyContentServlet extends HttpServlet {
         ExtensiveUser user = new ExtensiveUser(email,0);
         PrintWriter out = resp.getWriter();
 
-        resp.setContentType("application/xml");
+        resp.setContentType("application/json");
         ArrayList<Content> myList = new ArrayList<>();
         ArrayList<RelationToContent> relationList = new ArrayList<>();
         switch(type){
@@ -50,7 +50,7 @@ public class GetMyContentServlet extends HttpServlet {
             myList.add(relationList.get(i).getContent());
         }
 
-        out.println(MyUtil.contentsListToXML(myList));
+        out.println(MyUtil.contentsListToJSON(myList));
         return;
     }
 }

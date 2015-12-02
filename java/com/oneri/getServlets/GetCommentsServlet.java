@@ -25,7 +25,7 @@ public class GetCommentsServlet extends HttpServlet {
         ExtensiveContent extensiveContent = new ExtensiveContent(contentId);
         PrintWriter out = resp.getWriter();
 
-        resp.setContentType("application/xml");
+        resp.setContentType("application/json");
         out.println(extensiveContent.commentsToXML());
         return;
     }
