@@ -44,8 +44,8 @@
     </servlet>
 
     <servlet>
-        <servlet-name>TestAchilleServlet</servlet-name>
-        <servlet-class>com.oneri.getServlets.TestAchilleServlet</servlet-class>
+        <servlet-name>RecommendatorServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.RecommendatorServlet</servlet-class>
     </servlet>
     <!--********************POST SERVLETS****************************-->
     <servlet>
@@ -103,8 +103,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>TestAchilleServlet</servlet-name>
-        <url-pattern>/test</url-pattern>
+        <servlet-name>RecommendatorServlet</servlet-name>
+        <url-pattern>/recommendator</url-pattern>
     </servlet-mapping>
 
 
