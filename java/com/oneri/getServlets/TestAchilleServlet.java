@@ -1,6 +1,7 @@
 package com.oneri.getServlets;
 
 import com.oneri.MyUtil;
+import com.oneri.Recommendator.AttributeException;
 import com.oneri.Recommendator.Recommendator;
 import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.userOriented.ExtensiveUser;
@@ -29,7 +30,15 @@ public class TestAchilleServlet extends HttpServlet {
         }
 
         ExtensiveUser user1 = new ExtensiveUser(email,1);
-        Recommendator recommendator = new Recommendator() ;
+        Recommendator recommendator = null;
+        try
+        {
+            recommendator = new Recommendator(100,50,"movie");
+        }
+        catch (AttributeException e)
+        {
+            e.printStackTrace();
+        }
         ArrayList<ExtensiveContent> list1 = recommendator.recommend(user1);
         PrintWriter out = resp.getWriter();
 

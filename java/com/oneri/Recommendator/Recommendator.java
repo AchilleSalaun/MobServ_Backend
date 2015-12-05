@@ -7,6 +7,7 @@ import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -17,15 +18,18 @@ public class Recommendator
 {
     /** Attributes **/
     // size of the representative sample taken from the database
-    private int n_sample =100 ;
+    private int n_sample ;
     // number of suggested content (n_recommendation < n_sample)
-    private int n_recommendation = 50 ;
-
+    private int n_recommendation ;
+    //
+    private String type ;
+    //
+    private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "game")) ;
     public Recommendator()
     {
         this.n_sample = 100 ;
         this.n_recommendation = 50 ;
-        //this.type = "Music" ;
+        this.type = "movie" ;
     }
     public Recommendator(int n_sample, int n_recommendation, String type) throws AttributeException
     {
@@ -38,14 +42,14 @@ public class Recommendator
         {
             throw new AttributeException(1) ;
         }
-        //if(TYPE_LIST.contains(type))
-        //{
-        //    this.type = type ;
-        //}
-        //else
-        //{
-        //    throw new AttributeException(2) ;
-        //}
+        if(TYPE_LIST.contains(type))
+        {
+            this.type = type ;
+        }
+        else
+        {
+            throw new AttributeException(2) ;
+        }
     }
 
     public void setN_sample(int n_sample) throws AttributeException
@@ -73,7 +77,7 @@ public class Recommendator
         }
     }
 
-/*    public void setType(String type) throws AttributeException {
+    public void setType(String type) throws AttributeException {
         if(TYPE_LIST.contains(type))
         {
             this.type = type ;
@@ -82,7 +86,7 @@ public class Recommendator
         {
             throw new AttributeException(2) ;
         }
-    }*/
+    }
 
     public int getN_sample()
     {
@@ -94,10 +98,10 @@ public class Recommendator
         return n_recommendation ;
     }
 
-   /* public String getType()
+    public String getType()
     {
         return type;
-    }*/
+    }
 
     /** User Oriented **/
     public double distanceUser(ExtensiveUser user1, ExtensiveUser user2)
@@ -164,7 +168,7 @@ public class Recommendator
 
     public ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
     {
-        ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(n_sample);
+        ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(this.n_sample);
         ArrayList<ExtensiveUser> sortedUsers = this.sortUserList(reference, sampleUser);
 
         ArrayList<ExtensiveUser> similarUser = new ArrayList<>();
@@ -238,8 +242,7 @@ public class Recommendator
 
     public ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
     {
-        String type = "movie";
-        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(n_sample, type);
+        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(this.n_sample, this.type);
         ArrayList<ExtensiveContent> sortedContents = this.sortContentList(reference, sampleContent);
 
         ArrayList<ExtensiveContent> similarContent = new ArrayList<>() ;
