@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
-import javafx.collections.transformation.SortedList;
+//import javafx.collections.transformation.SortedList;
 
 /**
  * Created by Gaby on 29/10/2015.
@@ -96,17 +96,31 @@ public class MyUtil {
         return list ;
     }
 
-    public static ArrayList<ExtensiveContent> contentFromDB(int n) {
+    public static ArrayList<ExtensiveContent> contentFromDB(int n, String type) {
         ArrayList<ExtensiveContent> list = new ArrayList<ExtensiveContent>();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         // Take the list of contacts ordered by name
+
+        /*** Query à modifier : insertion du filtre "TYPE" ***/
+
+        Query.Filter contentTypeFilter =
+                new Query.FilterPredicate("ContentType",
+                        Query.FilterOperator.EQUAL,
+                        type);
+
+
         Query query = new Query("Content").addSort("Title", Query.SortDirection.ASCENDING);
+        query.setFilter(contentTypeFilter);
+        /*****************************************************/
+
         List<Entity> contentsEntity = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
         while (contentsEntity.size() > 0 && list.size() < n) {
             Random randomGenerator = new Random();
             int randomInt = randomGenerator.nextInt(contentsEntity.size());
+
             list.add(new ExtensiveContent(contentsEntity.get(randomInt).getKey()));
             contentsEntity.remove(randomInt);
+
         }
         return list;
     }
