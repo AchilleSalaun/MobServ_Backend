@@ -47,6 +47,11 @@
         <servlet-name>RecommendatorServlet</servlet-name>
         <servlet-class>com.oneri.getServlets.RecommendatorServlet</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>TestAchilleServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.TestAchilleServlet</servlet-class>
+    </servlet>
     <!--********************POST SERVLETS****************************-->
     <servlet>
         <servlet-name>SaveContactServlet</servlet-name>
@@ -105,6 +110,11 @@
     <servlet-mapping>
         <servlet-name>RecommendatorServlet</servlet-name>
         <url-pattern>/recommendator</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>TestAchilleServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
     </servlet-mapping>
 
 

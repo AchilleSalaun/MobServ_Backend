@@ -169,7 +169,8 @@ public class Recommendator
 
         ArrayList<ExtensiveUser> similarUser = new ArrayList<>();
 
-        int m = Math.min(this.n_recommendation,2);
+        int n = sampleUser.size() ;
+        int m = Math.min(this.n_recommendation,n);
 
         for(int i = 0 ; i< m; i++)
         {
@@ -237,13 +238,14 @@ public class Recommendator
 
     public ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
     {
-        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(n_sample);
+        String type = "movie";
+        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(n_sample, type);
         ArrayList<ExtensiveContent> sortedContents = this.sortContentList(reference, sampleContent);
 
         ArrayList<ExtensiveContent> similarContent = new ArrayList<>() ;
 
         int n = sampleContent.size() ;
-        int m = Math.min(this.n_recommendation,n-1);
+        int m = Math.min(this.n_recommendation,n);
         for(int i = 0 ; i< m ; i++)
         {
             similarContent.add(sortedContents.get(0));
