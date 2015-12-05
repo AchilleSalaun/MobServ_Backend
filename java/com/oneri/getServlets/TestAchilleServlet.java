@@ -29,7 +29,8 @@ public class TestAchilleServlet extends HttpServlet {
         }
 
         ExtensiveUser user1 = new ExtensiveUser(email,1);
-        ArrayList<ExtensiveContent> list1 = Recommendator.recommend(user1);
+        Recommendator recommendator = new Recommendator() ;
+        ArrayList<ExtensiveContent> list1 = recommendator.recommend(user1);
         PrintWriter out = resp.getWriter();
 
         out.println(MyUtil.sortedListToXML(list1));

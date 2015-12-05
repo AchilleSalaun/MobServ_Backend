@@ -17,12 +17,90 @@ public class Recommendator
 {
     /** Attributes **/
     // size of the representative sample taken from the database
-    private final static int n_sample =100 ;
+    private int n_sample =100 ;
     // number of suggested content (n_recommendation < n_sample)
-    private final static int n_recommendation = 50 ;
+    private int n_recommendation = 50 ;
+
+    public Recommendator()
+    {
+        this.n_sample = 100 ;
+        this.n_recommendation = 50 ;
+        //this.type = "Music" ;
+    }
+    public Recommendator(int n_sample, int n_recommendation, String type) throws AttributeException
+    {
+        this.n_sample = n_sample ;
+        if(n_sample >= n_recommendation)
+        {
+            this.n_recommendation = n_recommendation ;
+        }
+        else
+        {
+            throw new AttributeException(1) ;
+        }
+        //if(TYPE_LIST.contains(type))
+        //{
+        //    this.type = type ;
+        //}
+        //else
+        //{
+        //    throw new AttributeException(2) ;
+        //}
+    }
+
+    public void setN_sample(int n_sample) throws AttributeException
+    {
+        if(n_sample >= this.n_recommendation)
+        {
+            this.n_sample = n_sample ;
+        }
+        else
+        {
+            throw new AttributeException(1) ;
+        }
+
+    }
+
+    public void setN_recommendation(int n_recommendation) throws AttributeException {
+        if(this.n_sample >= n_recommendation)
+        {
+            this.n_recommendation = n_recommendation ;
+
+        }
+        else
+        {
+           throw new AttributeException(1);
+        }
+    }
+
+/*    public void setType(String type) throws AttributeException {
+        if(TYPE_LIST.contains(type))
+        {
+            this.type = type ;
+        }
+        else
+        {
+            throw new AttributeException(2) ;
+        }
+    }*/
+
+    public int getN_sample()
+    {
+        return n_sample ;
+    }
+
+    public int getN_recommendation()
+    {
+        return n_recommendation ;
+    }
+
+   /* public String getType()
+    {
+        return type;
+    }*/
 
     /** User Oriented **/
-    public static double distanceUser(ExtensiveUser user1, ExtensiveUser user2)
+    public double distanceUser(ExtensiveUser user1, ExtensiveUser user2)
     {
         // Let figure out the list of all the content suggested by the app, relatively to the user 1 :
         //
@@ -45,7 +123,7 @@ public class Recommendator
             if(user2.getContentUserDoesntLike().contains(r1)) d=d+3 ;
 
             // if user1 and user2 agree about a content :
-            // there is at least one content that both user1 and user2 know >> d--
+                // there is at least one content that both user1 and user2 know >> d--
             else if (user2.getContentUserLikes().contains(r1)) d-- ;
 
             // user2 doesn't know at least one content that user1 likes or dislikes >> it adds [1-0]^2
@@ -64,7 +142,7 @@ public class Recommendator
         return Math.sqrt(d) ;
     }
 
-    public static ArrayList<ExtensiveUser> sortUserList(final ExtensiveUser reference, ArrayList<ExtensiveUser> list)
+    public ArrayList<ExtensiveUser> sortUserList(final ExtensiveUser reference, ArrayList<ExtensiveUser> list)
     {
         Comparator<ExtensiveUser> comparator = new Comparator<ExtensiveUser>()
         {
@@ -76,7 +154,7 @@ public class Recommendator
 
                 double d2 = distanceUser(o2, reference);
 
-                return((int) Math.signum(d1-d2)) ;
+                return((int) Math.signum(d1 - d2));
             }
         };
 
@@ -84,14 +162,14 @@ public class Recommendator
         return list ;
     }
 
-    public static ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
+    public ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
     {
         ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(n_sample);
-        ArrayList<ExtensiveUser> sortedUsers = sortUserList(reference, sampleUser);
+        ArrayList<ExtensiveUser> sortedUsers = this.sortUserList(reference, sampleUser);
 
         ArrayList<ExtensiveUser> similarUser = new ArrayList<>();
 
-        int m = Math.min(n_recommendation,2);
+        int m = Math.min(this.n_recommendation,2);
 
         for(int i = 0 ; i< m; i++)
         {
@@ -105,7 +183,7 @@ public class Recommendator
 
     /** Item Oriented **/
     // see the method distanceUser
-    public static double distanceContent(ExtensiveContent content1, ExtensiveContent content2)
+    public double distanceContent(ExtensiveContent content1, ExtensiveContent content2)
     {
         int d = 0 ;
 
@@ -127,7 +205,7 @@ public class Recommendator
     }
 
     // give the distance with the closest element of the list
-    public static double distanceObjectToList(ExtensiveContent object, ArrayList<ExtensiveContent> list)
+    public double distanceObjectToList(ExtensiveContent object, ArrayList<ExtensiveContent> list)
     {
         double d = 0 ;
         for(ExtensiveContent o : list)
@@ -138,10 +216,9 @@ public class Recommendator
 
      // WARNING : sortContentList is quite different to sortUserList :
      // reference is a list of content in the first case whereas it's an unique user in the second one
-    public static ArrayList<ExtensiveContent> sortContentList(final ArrayList<ExtensiveContent> reference, ArrayList<ExtensiveContent> list)
+    public ArrayList<ExtensiveContent> sortContentList(final ArrayList<ExtensiveContent> reference, ArrayList<ExtensiveContent> list)
     {
-        Comparator<ExtensiveContent> comparator = new Comparator<ExtensiveContent>()
-        {
+        Comparator<ExtensiveContent> comparator = new Comparator<ExtensiveContent>() {
             // what is the closest object "o1" or "o2" from the list "reference" ?
             @Override
             public int compare(ExtensiveContent o1, ExtensiveContent o2)
@@ -154,18 +231,19 @@ public class Recommendator
             }
         };
 
-        Collections.sort(list, comparator) ;
+        Collections.sort(list, comparator);
         return list ;
     }
 
-    public static ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
+    public ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
     {
         ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(n_sample);
-        ArrayList<ExtensiveContent> sortedContents = sortContentList(reference, sampleContent);
+        ArrayList<ExtensiveContent> sortedContents = this.sortContentList(reference, sampleContent);
 
         ArrayList<ExtensiveContent> similarContent = new ArrayList<>() ;
 
-        int m = Math.min(n_recommendation,2);
+        int n = sampleContent.size() ;
+        int m = Math.min(this.n_recommendation,n-1);
         for(int i = 0 ; i< m ; i++)
         {
             similarContent.add(sortedContents.get(0));
@@ -176,7 +254,7 @@ public class Recommendator
     }
 
     // remove redundant items in the SortedList
-    public static void killContentPairs(ArrayList<ExtensiveContent> list)
+    public void killContentPairs(ArrayList<ExtensiveContent> list)
     {
         int size = list.size() ;
         for(int i = 0 ; i<size-1 ; i++)
@@ -190,10 +268,10 @@ public class Recommendator
 
     /** General point of view **/
     // The ultimate goal !!!
-    public static ArrayList<ExtensiveContent> recommend(ExtensiveUser user)
+    public ArrayList<ExtensiveContent> recommend(ExtensiveUser user)
     {
         // First, we look for similar users :
-        ArrayList<ExtensiveUser> similarUsers = getSimilarUserTo(user) ;
+        ArrayList<ExtensiveUser> similarUsers = this.getSimilarUserTo(user) ;
 
         // We get all the content they like in the same list
         ArrayList<ExtensiveContent> recommendedContent = new ArrayList<>() ;
@@ -207,10 +285,10 @@ public class Recommendator
         recommendedContent.addAll(aux);
 
         // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user)) as reference :
-        ArrayList<ExtensiveContent> recommendation = sortContentList(MyUtil.toArray(user), recommendedContent) ;
+        ArrayList<ExtensiveContent> recommendation = this.sortContentList(MyUtil.toArray(user), recommendedContent) ;
 
         /** remove any redundancy **/
-        killContentPairs(recommendation) ;
+        this.killContentPairs(recommendation) ;
 
         return recommendation ;
     }
@@ -219,7 +297,7 @@ public class Recommendator
     // It's bonus methods, I let here to have model if needed.
 
     // give the distance between two lists
-    //public static double distanceListToList(ArrayList<ObjectFromDB> list1, ArrayList<ObjectFromDB> list2) throws DistanceException
+    //public double distanceListToList(ArrayList<ObjectFromDB> list1, ArrayList<ObjectFromDB> list2) throws DistanceException
     //{
     //    double d = 0 ;
     //    for(ObjectFromDB o : list1)
@@ -228,7 +306,7 @@ public class Recommendator
     //    return d ;
     //}
 
-    //public static SortedList<ObjectFromDB> sortObject(final ObjectFromDB object, ArrayList<ObjectFromDB> list)
+    //public SortedList<ObjectFromDB> sortObject(final ObjectFromDB object, ArrayList<ObjectFromDB> list)
     //{
     //    Comparator<ObjectFromDB> comparator = new Comparator<ObjectFromDB>()
     //    {
