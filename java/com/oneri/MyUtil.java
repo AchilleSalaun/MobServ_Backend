@@ -62,7 +62,8 @@ public class MyUtil {
 
     public static ArrayList<ExtensiveContent> toArray(ExtensiveUser user){
         ArrayList<ExtensiveContent> myList = new ArrayList<>();
-        for(int i = 0; i<user.getContentUserLikes().size();i++){
+        for(int i = 0; i<user.getContentUserLikes().size();i++)
+        {
             myList.add(user.getContentUserLikes().get(i).getExtensiveContent());
         }
         return myList;

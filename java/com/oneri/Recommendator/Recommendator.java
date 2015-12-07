@@ -24,7 +24,9 @@ public class Recommendator
     //
     private String type ;
     //
+
     private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "video game", "comic", "series")) ;
+
     public Recommendator()
     {
         this.n_sample = 100 ;
@@ -261,13 +263,15 @@ public class Recommendator
     // remove redundant items in the SortedList
     public void killContentPairs(ArrayList<ExtensiveContent> list)
     {
-        int size = list.size() ;
-        for(int i = 0 ; i<size-1 ; i++)
+        int i = 0 ;
+        while( i < list.size()-1)
         {
-            while(list.get(i)==list.get(i+1))
+            for(int j = list.size() ; j > i ; j--)
+            if(list.get(i)==list.get(j))
             {
-                list.remove(i+1);
+                list.remove(j);
             }
+            else i++ ;
         }
     }
 
