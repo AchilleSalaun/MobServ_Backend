@@ -4,14 +4,18 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.apphosting.datastore.DatastoreV4;
 import com.oneri.database.ObjectFromDB;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,7 +100,12 @@ public class Content extends ObjectFromDB {
     }
 
     public String getContentType() {
+
+        if (contentType.equals("undefined"))
+            this.contentType = getInDB("ContentType");
+
         return contentType;
+
     }
 
     public void setContentType(String contentType) {
@@ -128,10 +137,27 @@ public class Content extends ObjectFromDB {
     }
 
     public String getTitle() {
+        if (title.equals("undefined"))
+            this.title = getInDB("Title");
+
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+
+    private String getInDB(String property){
+        Query.Filter keyFilter =
+                new Query.FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+                        Query.FilterOperator.EQUAL,
+                        this.getKey());
+        Query q =  new Query(type).setFilter(keyFilter);
+        q.addProjection(new PropertyProjection(property,String.class));
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery pq = datastore.prepare(q);
+        Entity entity= pq.asSingleEntity();
+        return (String)entity.getProperty(property);
     }
 }

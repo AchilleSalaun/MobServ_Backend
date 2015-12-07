@@ -266,12 +266,13 @@ public class Recommendator
         int i = 0 ;
         while( i < list.size()-1)
         {
-            for(int j = list.size() ; j > i ; j--)
-            if(list.get(i)==list.get(j))
-            {
-                list.remove(j);
+            int j=i+1;
+            while(j<list.size()) {
+                if (list.get(i).equals(list.get(j))) {
+                    list.remove(j);
+                } else {j++;}
             }
-            else i++ ;
+            i++;
         }
     }
 
