@@ -39,6 +39,10 @@
         <servlet-class>com.oneri.getServlets.GetRecommendationsServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>GetRelationServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.GetRelationServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>GetSearchResultsServlet</servlet-name>
         <servlet-class>com.oneri.getServlets.GetSearchResultsServlet</servlet-class>
     </servlet>
@@ -93,8 +97,13 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>GetRecommendationsServlet</servlet-name>
-        <url-pattern>/getRecommendations</url-pattern><!--Works-->
+    <servlet-name>GetRecommendationsServlet</servlet-name>
+    <url-pattern>/getRecommendations</url-pattern><!--Works-->
+</servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetRelationServlet</servlet-name>
+        <url-pattern>/getRelation</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
