@@ -24,6 +24,7 @@ public class TestAchilleServlet extends HttpServlet {
         String email = req.getParameter("email");
         if (email == null){
             int a = 0;
+            resp.getWriter().println("email is null");
             return;
         }
 

@@ -24,7 +24,7 @@ public class Recommendator
     //
     private String type ;
     //
-    private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "game")) ;
+    private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "video game", "comic", "series")) ;
     public Recommendator()
     {
         this.n_sample = 100 ;
@@ -295,6 +295,16 @@ public class Recommendator
         /** remove any redundancy **/
         this.killContentPairs(recommendation) ;
 
+        ArrayList<Integer> mauvais = new ArrayList<>();
+
+        for(int i=0;i<recommendation.size();i++){
+            if(!(recommendation.get(i).getContentType().equals(type))){
+                mauvais.add(i);
+            }
+        }
+
+        for(int i=0;i<mauvais.size();i++)
+            recommendation.remove((int)mauvais.get(i));
         return recommendation ;
     }
 
