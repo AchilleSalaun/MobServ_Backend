@@ -28,11 +28,17 @@ public class TestAchilleServlet extends HttpServlet {
             return;
         }
 
+        String contentType = req.getParameter("contentType");
+        if (contentType == null){
+            resp.getWriter().println("contentType is null");
+            return;
+        }
+
         ExtensiveUser user1 = new ExtensiveUser(email,1);
         Recommendator recommendator = null;
         try
         {
-            recommendator = new Recommendator(100,50,"movie");
+            recommendator = new Recommendator(100,50,contentType);
         }
         catch (AttributeException e)
         {

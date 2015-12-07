@@ -303,7 +303,7 @@ public class Recommendator
             }
         }
 
-        for(int i=0;i<mauvais.size();i++)
+        for(int i=mauvais.size()-1;i>=0;i--)
             recommendation.remove((int)mauvais.get(i));
         return recommendation ;
     }
