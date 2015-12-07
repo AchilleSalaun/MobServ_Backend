@@ -17,6 +17,7 @@ import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.database.ObjectFromDB;
 import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
+
 import java.util.Arrays;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Logger;
 
 //import javafx.collections.transformation.SortedList;
 
@@ -112,8 +114,10 @@ public class MyUtil {
     }
     public static int ressemblance(String[] query,String element){
         int result = 0;
+        String a = element.toLowerCase();
         for(int i = 0; i<query.length;i++){
-            if(element.toLowerCase().contains(query[i].toLowerCase()) ) {
+            String b = query[i].toLowerCase();
+            if(a.contains(b) ) {
                 result ++;
             }
         }
