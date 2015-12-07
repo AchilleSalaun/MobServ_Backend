@@ -42,10 +42,11 @@ public class GetRelationServlet extends HttpServlet {
         Key myKey = KeyFactory.createKey("Relation",email + title+contentType);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        resp.setContentType("application/json");
 
         try {
             Entity relation = datastore.get(myKey);
-            resp.getWriter().println(relation.getProperty("RelationType"));
+            resp.getWriter().println("{RelationType:" + relation.getProperty("RelationType")+"}");
 
         } catch (EntityNotFoundException e) {
             e.printStackTrace();

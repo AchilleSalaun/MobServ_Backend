@@ -62,6 +62,6 @@ public class RecommendatorServlet extends HttpServlet
         ArrayList<ExtensiveContent> list1 = recommendator.recommend(user1);
         PrintWriter out = resp.getWriter();
 
-        out.println(MyUtil.sortedListToXML(list1));
+        out.println(MyUtil.sortedListToJSON(list1));
     }
 }

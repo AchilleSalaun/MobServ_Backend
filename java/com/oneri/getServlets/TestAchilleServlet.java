@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javafx.collections.transformation.SortedList;
-
 /**
  * Created by Gaby on 16/11/2015.
  */
