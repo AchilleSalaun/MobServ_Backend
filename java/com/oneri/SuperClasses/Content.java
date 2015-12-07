@@ -20,37 +20,24 @@ import java.util.Map;
 public class Content extends ObjectFromDB {
 
     private static final String type = "Content";
-
-    private String commercialLink = "undefined commercial link";
-    private String contentType = "undefined content type";
-    private String creator = "undefined creator";
-    private String description = "undefined description";
-    private String imageURL = "undefined image URL";
-    private String title = "undefined title";
+    private boolean inCache = false;
+    private String commercialLink = "undefined";
+    private String contentType = "undefined";
+    private String creator = "undefined";
+    private String description = "undefined";
+    private String imageURL = "undefined";
+    private String title = "undefined";
 
     public Content(Key key) {
         super(key);
-        Entity entity = getEntityFromDB();
-        initFromEntity(entity);
     }
     public Content(String id) {
         super(id);
-        Entity entity = getEntityFromDB();
-        initFromEntity(entity);
     }
     public Content(String title,String contentType){
         super();
         Key key = KeyFactory.createKey(type, title + contentType);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        try {
-            Entity result = datastore.get(key);
-            initFromEntity(result);
-            setKey(result.getKey());
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-            this.title="PB content String title=" + title + "String contentType=" +  contentType ;
-            this.creator = key.toString();
-        }
+        this.setKey(key);
     }
     public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
         super();
@@ -79,16 +66,22 @@ public class Content extends ObjectFromDB {
         this.description = (String) entity.getProperty("Description");
         this.imageURL = (String) entity.getProperty("ImageURL");
         this.title = (String) entity.getProperty("Title");
+        this.inCache = true;
     }
     public Entity createEntity(){
         Entity contact;
-        contact = new Entity(type, title + contentType);
-        contact.setProperty("CommercialLink", commercialLink);
-        contact.setProperty("ContentType", contentType);
-        contact.setProperty("Creator", creator);
-        contact.setProperty("Description", description);
-        contact.setProperty("ImageURL", imageURL);
-        contact.setProperty("Title", title);
+        if(inCache){
+            contact = new Entity(type, title + contentType);
+            contact.setProperty("CommercialLink", commercialLink);
+            contact.setProperty("ContentType", contentType);
+            contact.setProperty("Creator", creator);
+            contact.setProperty("Description", description);
+            contact.setProperty("ImageURL", imageURL);
+            contact.setProperty("Title", title);
+        }else{
+            contact = this.getEntityFromDB();
+            initFromEntity(contact);
+        }
         return contact;
     }
 
@@ -96,9 +89,7 @@ public class Content extends ObjectFromDB {
         return type;
     }
 
-    public String getCommercialLink() {
-        return commercialLink;
-    }
+    public String getCommercialLink() {return commercialLink;}
 
     public void setCommercialLink(String commercialLink) {
         this.commercialLink = commercialLink;
