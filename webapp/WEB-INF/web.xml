@@ -48,6 +48,11 @@
     </servlet>
 
     <servlet>
+        <servlet-name>RecommendatorServlet</servlet-name>
+        <servlet-class>com.oneri.getServlets.RecommendatorServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>TestAchilleServlet</servlet-name>
         <servlet-class>com.oneri.getServlets.TestAchilleServlet</servlet-class>
     </servlet>
@@ -109,6 +114,11 @@
     <servlet-mapping>
         <servlet-name>GetSearchResultsServlet</servlet-name>
         <url-pattern>/getSearchResults</url-pattern><!--Works-->
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>RecommendatorServlet</servlet-name>
+        <url-pattern>/recommendator</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

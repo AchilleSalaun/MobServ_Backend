@@ -1,6 +1,7 @@
 package com.oneri.getServlets;
 
 import com.oneri.MyUtil;
+import com.oneri.Recommendator.AttributeException;
 import com.oneri.Recommendator.Recommendator;
 import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.userOriented.ExtensiveUser;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//import javafx.collections.transformation.SortedList;
+import javafx.collections.transformation.SortedList;
 
 /**
  * Created by Gaby on 16/11/2015.
@@ -28,14 +29,17 @@ public class TestAchilleServlet extends HttpServlet {
             return;
         }
 
-        String contentType = req.getParameter("contentType");
-        if (contentType == null){
-            int a = 0;
-            return;
-        }
-
         ExtensiveUser user1 = new ExtensiveUser(email,1);
-        ArrayList<ExtensiveContent> list1 = Recommendator.recommend(user1, contentType);
+        Recommendator recommendator = null;
+        try
+        {
+            recommendator = new Recommendator(100,50,"movie");
+        }
+        catch (AttributeException e)
+        {
+            e.printStackTrace();
+        }
+        ArrayList<ExtensiveContent> list1 = recommendator.recommend(user1);
         PrintWriter out = resp.getWriter();
 
         out.println(MyUtil.sortedListToJSON(list1));
