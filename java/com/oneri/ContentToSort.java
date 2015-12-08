@@ -1,24 +1,21 @@
 package com.oneri;
 
+import com.oneri.SuperClasses.Content;
+
 /**
  * Created by Gaby on 09/11/2015.
  */
-public class ContentToSort implements Comparable<ContentToSort>{
+public class ContentToSort extends Content implements Comparable<ContentToSort>{
 
-    private String id;
     private int ressemblance;
 
-    public ContentToSort(String id, int ressemblance) {
-        this.id = id;
+    public ContentToSort(String title, String contentType, int ressemblance) {
+        super(title, contentType);
         this.ressemblance = ressemblance;
     }
 
     @Override
     public int compareTo(ContentToSort otherContent) {
         return otherContent.ressemblance - this.ressemblance;
-    }
-
-    public String getId() {
-        return id;
     }
 }

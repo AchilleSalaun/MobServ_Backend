@@ -48,16 +48,6 @@ public class ExtensiveContent extends Content{
         generateRelations();
     }
 
-
-    /*public ExtensiveContent(Key key) {
-        super(key);
-        generateRelations();
-    }*/
-
-    public ExtensiveContent(String id) {
-        super(id);
-        generateRelations();
-    }
     public ExtensiveContent(String title, String contentType) {
         super(title, contentType);
         generateRelations();

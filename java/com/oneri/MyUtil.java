@@ -145,7 +145,8 @@ public class MyUtil {
         for(int i = 0;i<entities.size();i++){
             int ressemblance = bestRessemblance(query,entities.get(i));
             if(ressemblance>0){
-                result.add(new ContentToSort(KeyFactory.keyToString(entities.get(i).getKey()),ressemblance));
+                Entity entity = entities.get(i);
+                result.add(new ContentToSort((String)entity.getProperty("Title"),(String)entity.getProperty("ContentType"),ressemblance));
             }
         }
         return result;
@@ -160,7 +161,7 @@ public class MyUtil {
     public static  ArrayList<Content> contentToSortToContent(ArrayList<ContentToSort> list){
         ArrayList<Content> result = new ArrayList<>();
         for(int i = 0; i<list.size(); i++){
-            result.add(new Content(list.get(i).getId()));
+            result.add(list.get(i));
         }
         return result;
     }

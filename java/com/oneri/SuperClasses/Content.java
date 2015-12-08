@@ -33,9 +33,7 @@ public class Content extends ObjectFromDB {
     private String title = "undefined";
 
     //public Content(Key key) {super(key);}
-    public Content(String id) {
-        super(id);
-    }
+    //public Content(String id) {super(id);}
     public Content(String title,String contentType){
         super();
         Key key = KeyFactory.createKey(type, title + contentType);
