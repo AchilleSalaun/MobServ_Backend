@@ -15,21 +15,21 @@ public class RelationToUser extends Relation{
 
     public RelationToUser(Key key) {
         super(key);
-        setUserFromDB();}
+        setUserFromRelation();}
     public RelationToUser(String id) {super(id);
-        setUserFromDB();}
+        setUserFromRelation();}
 
     public RelationToUser(Key key, String relationType, String comment, String title, String email, String contentType) {
         super(key, relationType, comment, title, email, contentType);
-        setUserFromDB();}
+        setUserFromRelation();}
 
     public RelationToUser(String relationType, String comment, String title, String email, String contentType) {
         super(relationType, comment, title, email, contentType);
-        setUserFromDB();}
+        setUserFromRelation();}
 
     public User getUser() {return user;}
 
     public void setUser(User user) {this.user = user;}
 
-    public void setUserFromDB(){this.user = new User(getEmail(),0);}
+    public void setUserFromRelation(){this.user = new User(getEmail());}
 }

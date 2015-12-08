@@ -40,9 +40,9 @@ public abstract class ObjectFromDB {
         }
     }
 
-    public abstract Entity createEntity();
+    public abstract Entity getEntity();
     public void putInDB(){
-        Entity entity = createEntity();
+        Entity entity = getEntity();
 
         // Take a reference of the datastore
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -52,7 +52,7 @@ public abstract class ObjectFromDB {
     }
 
     public JSONObject toJSON(JSONObject jsonObject){
-        Entity entity = createEntity();
+        Entity entity = getEntity();
         Map<String,Object> map = entity.getProperties();
         Iterator iterator = map.keySet().iterator();
         while(iterator.hasNext()){

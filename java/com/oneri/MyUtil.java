@@ -79,7 +79,7 @@ public class MyUtil {
         while(usersEntity.size()>0 && list.size()<n){
             Random randomGenerator = new Random();
             int randomInt = randomGenerator.nextInt(usersEntity.size());
-            list.add(new ExtensiveUser(usersEntity.get(randomInt).getKey()));
+            list.add(new ExtensiveUser(usersEntity.get(randomInt)));
             usersEntity.remove(randomInt);
         }
         return list ;

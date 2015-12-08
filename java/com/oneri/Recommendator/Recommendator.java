@@ -173,18 +173,15 @@ public class Recommendator
         ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(this.n_sample);
         ArrayList<ExtensiveUser> sortedUsers = this.sortUserList(reference, sampleUser);
 
-        ArrayList<ExtensiveUser> similarUser = new ArrayList<>();
-
         int n = sampleUser.size() ;
         int m = Math.min(this.n_recommendation,n);
 
-        for(int i = 0 ; i< m; i++)
+        for(int i = sortedUsers.size()-1 ; i>= m; i--)
         {
-            similarUser.add(sortedUsers.get(0));
-            sortedUsers.remove(0);
+            sortedUsers.remove(i);
         }
 
-        return similarUser ;
+        return sortedUsers ;
     }
 
 

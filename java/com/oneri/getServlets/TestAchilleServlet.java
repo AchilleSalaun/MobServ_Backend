@@ -34,7 +34,7 @@ public class TestAchilleServlet extends HttpServlet {
             return;
         }
 
-        ExtensiveUser user1 = new ExtensiveUser(email,1);
+        ExtensiveUser user1 = new ExtensiveUser(email);
         Recommendator recommendator = null;
         try
         {

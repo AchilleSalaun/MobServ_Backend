@@ -42,17 +42,13 @@ public class ExtensiveUser extends User{
         this.contentUserDoesntLike = contentUserDoesntLike;
     }
 
-    public ExtensiveUser(Key key) {
-        super(key);
+    public ExtensiveUser(Entity entity) {
+        super(entity);
         generateRelations();
     }
 
-    public ExtensiveUser(String id) {
-        super(id);
-        generateRelations();
-    }
-    public ExtensiveUser(String email, int dumbVarialble){
-        super(email,dumbVarialble);
+    public ExtensiveUser(String email){
+        super(email);
         generateRelations();
     }
 

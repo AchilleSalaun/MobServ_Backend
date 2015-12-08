@@ -36,7 +36,7 @@ public class GetLikedContentServlet extends HttpServlet {
             return;
         }
 
-        ExtensiveUser user = new ExtensiveUser(email,0);
+        ExtensiveUser user = new ExtensiveUser(email);
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("application/json");

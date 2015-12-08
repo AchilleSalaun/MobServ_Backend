@@ -24,6 +24,7 @@ public class Relation extends ObjectFromDB {
     public Relation (String id){
         super(id);
     }
+
     public Relation(Key key,String relationType,String comment, String title, String email, String contentType) {
         super(key);
         this.relationType = relationType;
@@ -48,7 +49,9 @@ public class Relation extends ObjectFromDB {
         this.contentType = (String)entity.getProperty("ContentType");
         this.email = (String)entity.getProperty("Email");
     }
-    public Entity createEntity() {
+
+    @Override
+    public Entity getEntity() {
         Entity entity;
         entity = new Entity(type, email + title + contentType);
         entity.setProperty("Title", title);

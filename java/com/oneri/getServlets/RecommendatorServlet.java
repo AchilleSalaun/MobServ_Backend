@@ -48,7 +48,7 @@ public class RecommendatorServlet extends HttpServlet
             int a = 0;
             return;
         }
-        ExtensiveUser user1 = new ExtensiveUser(email,1);
+        ExtensiveUser user1 = new ExtensiveUser(email);
         Recommendator recommendator = null;
         try
         {

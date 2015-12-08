@@ -32,8 +32,6 @@ public class Content extends ObjectFromDB {
     private String imageURL = "undefined";
     private String title = "undefined";
 
-    //public Content(Key key) {super(key);}
-    //public Content(String id) {super(id);}
     public Content(String title,String contentType){
         super();
         Key key = KeyFactory.createKey(type, title + contentType);
@@ -41,6 +39,13 @@ public class Content extends ObjectFromDB {
         this.title=title;
         this.contentType = contentType;
     }
+
+    public Content(Entity entity){
+        super(entity.getKey());
+        initFromEntity(entity);
+    }
+
+
     public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
         super();
         this.commercialLink = commercialLink;
@@ -70,21 +75,23 @@ public class Content extends ObjectFromDB {
         this.title = (String) entity.getProperty("Title");
         this.inCache = true;
     }
-    public Entity createEntity(){
-        Entity contact;
+
+    @Override
+    public Entity getEntity(){
+        Entity content;
         if(inCache){
-            contact = new Entity(type, title + contentType);
-            contact.setProperty("CommercialLink", commercialLink);
-            contact.setProperty("ContentType", contentType);
-            contact.setProperty("Creator", creator);
-            contact.setProperty("Description", description);
-            contact.setProperty("ImageURL", imageURL);
-            contact.setProperty("Title", title);
+            content = new Entity(type, title + contentType);
+            content.setProperty("CommercialLink", commercialLink);
+            content.setProperty("ContentType", contentType);
+            content.setProperty("Creator", creator);
+            content.setProperty("Description", description);
+            content.setProperty("ImageURL", imageURL);
+            content.setProperty("Title", title);
         }else{
-            contact = this.getEntityFromDB();
-            initFromEntity(contact);
+            content = this.getEntityFromDB();
+            initFromEntity(content);
         }
-        return contact;
+        return content;
     }
 
     public static String getType() {
@@ -100,7 +107,7 @@ public class Content extends ObjectFromDB {
     public String getContentType() {
 
         if (contentType.equals("undefined"))
-            this.contentType = getInDB("ContentType");
+            this.contentType = this.getInDB("ContentType");
 
         return contentType;
 
@@ -136,7 +143,7 @@ public class Content extends ObjectFromDB {
 
     public String getTitle() {
         if (title.equals("undefined"))
-            this.title = getInDB("Title");
+            this.title = this.getInDB("Title");
 
         return title;
     }

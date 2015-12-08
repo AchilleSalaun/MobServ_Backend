@@ -9,4 +9,13 @@
         <property name="__key__" direction="asc"/>
         <property name="ContentType" direction="asc"/>
     </datastore-index>
+    <datastore-index kind="Relation" ancestor="false" source="manual">
+        <property name="Email" direction="asc"/>
+        <property name="Title" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Relation" ancestor="false" source="manual">
+        <property name="Title" direction="asc"/>
+        <property name="ContentType" direction="asc"/>
+        <property name="Email" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>
