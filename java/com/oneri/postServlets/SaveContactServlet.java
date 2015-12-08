@@ -28,8 +28,11 @@ public class SaveContactServlet extends javax.servlet.http.HttpServlet {
         String userEmail = req.getParameter("email");
         String userPict = req.getParameter("pict");
 
+
         // Take a reference of the datastore
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+
 
         // Generate or retrieve the key associated with an existent contact
         // Create or modify the entity associated with the contact
@@ -40,6 +43,7 @@ public class SaveContactServlet extends javax.servlet.http.HttpServlet {
         contact.setProperty("Email", userEmail); //Two people can't have the same or the DB won't make the difference
         contact.setProperty("Pict", userPict);
 
+
         // Save in the Datastore
         datastore.put(contact);
         resp.getWriter().println("User " + userName + " saved with key " +
@@ -47,4 +51,6 @@ public class SaveContactServlet extends javax.servlet.http.HttpServlet {
 
         //Go to appengine.google.com to see the DB
     }
+
+
 }

@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javafx.collections.transformation.SortedList;
-
 /**
  * Created by Gaby on 16/11/2015.
  */
@@ -26,14 +24,21 @@ public class TestAchilleServlet extends HttpServlet {
         String email = req.getParameter("email");
         if (email == null){
             int a = 0;
+            resp.getWriter().println("email is null");
             return;
         }
 
-        ExtensiveUser user1 = new ExtensiveUser(email,1);
+        String contentType = req.getParameter("contentType");
+        if (contentType == null){
+            resp.getWriter().println("contentType is null");
+            return;
+        }
+
+        ExtensiveUser user1 = new ExtensiveUser(email);
         Recommendator recommendator = null;
         try
         {
-            recommendator = new Recommendator(100,50,"movie");
+            recommendator = new Recommendator(100,50,contentType);
         }
         catch (AttributeException e)
         {
@@ -42,6 +47,6 @@ public class TestAchilleServlet extends HttpServlet {
         ArrayList<ExtensiveContent> list1 = recommendator.recommend(user1);
         PrintWriter out = resp.getWriter();
 
-        out.println(MyUtil.sortedListToXML(list1));
+        out.println(MyUtil.sortedListToJSON(list1));
     }
 }

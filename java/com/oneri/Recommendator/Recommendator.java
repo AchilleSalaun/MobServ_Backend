@@ -24,7 +24,9 @@ public class Recommendator
     //
     private String type ;
     //
-    private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "video game")) ;
+
+    private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "video game", "comic", "series")) ;
+
     public Recommendator()
     {
         this.n_sample = 100 ;
@@ -171,18 +173,15 @@ public class Recommendator
         ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(this.n_sample);
         ArrayList<ExtensiveUser> sortedUsers = this.sortUserList(reference, sampleUser);
 
-        ArrayList<ExtensiveUser> similarUser = new ArrayList<>();
-
         int n = sampleUser.size() ;
         int m = Math.min(this.n_recommendation,n);
 
-        for(int i = 0 ; i< m; i++)
+        for(int i = sortedUsers.size()-1 ; i>= m; i--)
         {
-            similarUser.add(sortedUsers.get(0));
-            sortedUsers.remove(0);
+            sortedUsers.remove(i);
         }
 
-        return similarUser ;
+        return sortedUsers ;
     }
 
 
@@ -264,12 +263,13 @@ public class Recommendator
         int i = 0 ;
         while( i < list.size()-1)
         {
-            for(int j = list.size() ; j > i ; j--)
-            if(list.get(i)==list.get(j))
-            {
-                list.remove(j);
+            int j=i+1;
+            while(j<list.size()) {
+                if (list.get(i).equals(list.get(j))) {
+                    list.remove(j);
+                } else {j++;}
             }
-            else i++ ;
+            i++;
         }
     }
 
@@ -297,6 +297,16 @@ public class Recommendator
         /** remove any redundancy **/
         this.killContentPairs(recommendation) ;
 
+        ArrayList<Integer> mauvais = new ArrayList<>();
+
+        for(int i=0;i<recommendation.size();i++){
+            if(!(recommendation.get(i).getContentType().equals(type))){
+                mauvais.add(i);
+            }
+        }
+
+        for(int i=mauvais.size()-1;i>=0;i--)
+            recommendation.remove((int)mauvais.get(i));
         return recommendation ;
     }
 

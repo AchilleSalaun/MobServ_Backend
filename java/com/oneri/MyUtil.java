@@ -17,6 +17,7 @@ import com.oneri.contentOriented.ExtensiveContent;
 import com.oneri.database.ObjectFromDB;
 import com.oneri.userOriented.ExtensiveUser;
 import com.oneri.userOriented.RelationToContent;
+
 import java.util.Arrays;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Logger;
 
 //import javafx.collections.transformation.SortedList;
 
@@ -34,7 +36,7 @@ import java.util.Map;
  */
 public class MyUtil {
 
-    public static String usersListToXML(ArrayList<User> myList){
+    public static String usersListToJSON(ArrayList<User> myList){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < myList.size(); i++) {
@@ -43,17 +45,10 @@ public class MyUtil {
             content.toJSON(contactJSON);
             results.put(contactJSON);
         }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+        return results.toString();
     }
 
-    public static String contentsListToXML(ArrayList<Content> myList){
+    public static String contentsListToJSON(ArrayList<Content> myList){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < myList.size(); i++) {
@@ -62,14 +57,7 @@ public class MyUtil {
             content.toJSON(contactJSON);
             results.put(contactJSON);
         }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+        return results.toString();
     }
 
     public static ArrayList<ExtensiveContent> toArray(ExtensiveUser user){
@@ -91,7 +79,7 @@ public class MyUtil {
         while(usersEntity.size()>0 && list.size()<n){
             Random randomGenerator = new Random();
             int randomInt = randomGenerator.nextInt(usersEntity.size());
-            list.add(new ExtensiveUser(usersEntity.get(randomInt).getKey()));
+            list.add(new ExtensiveUser(usersEntity.get(randomInt)));
             usersEntity.remove(randomInt);
         }
         return list ;
@@ -118,8 +106,9 @@ public class MyUtil {
         while (contentsEntity.size() > 0 && list.size() < n) {
             Random randomGenerator = new Random();
             int randomInt = randomGenerator.nextInt(contentsEntity.size());
+            Entity entity = contentsEntity.get(randomInt);
 
-            list.add(new ExtensiveContent(contentsEntity.get(randomInt).getKey()));
+            list.add(new ExtensiveContent((String)entity.getProperty("Title"),(String)entity.getProperty("ContentType")));
             contentsEntity.remove(randomInt);
 
         }
@@ -127,8 +116,10 @@ public class MyUtil {
     }
     public static int ressemblance(String[] query,String element){
         int result = 0;
+        String a = element.toLowerCase();
         for(int i = 0; i<query.length;i++){
-            if(element.toLowerCase().contains(query[i].toLowerCase()) ) {
+            String b = query[i].toLowerCase();
+            if(a.contains(b) ) {
                 result ++;
             }
         }
@@ -154,7 +145,8 @@ public class MyUtil {
         for(int i = 0;i<entities.size();i++){
             int ressemblance = bestRessemblance(query,entities.get(i));
             if(ressemblance>0){
-                result.add(new ContentToSort(KeyFactory.keyToString(entities.get(i).getKey()),ressemblance));
+                Entity entity = entities.get(i);
+                result.add(new ContentToSort((String)entity.getProperty("Title"),(String)entity.getProperty("ContentType"),ressemblance));
             }
         }
         return result;
@@ -169,12 +161,12 @@ public class MyUtil {
     public static  ArrayList<Content> contentToSortToContent(ArrayList<ContentToSort> list){
         ArrayList<Content> result = new ArrayList<>();
         for(int i = 0; i<list.size(); i++){
-            result.add(new Content(list.get(i).getId()));
+            result.add(list.get(i));
         }
         return result;
     }
 
-    public  static  String sortedListToXML(ArrayList<ExtensiveContent> myList){
+    public  static  String sortedListToJSON(ArrayList<ExtensiveContent> myList){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < myList.size(); i++) {
@@ -183,13 +175,6 @@ public class MyUtil {
             content.toJSON(contactJSON);
             results.put(contactJSON);
         }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+        return results.toString();
     }
 }

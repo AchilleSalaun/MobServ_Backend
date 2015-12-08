@@ -42,17 +42,13 @@ public class ExtensiveUser extends User{
         this.contentUserDoesntLike = contentUserDoesntLike;
     }
 
-    public ExtensiveUser(Key key) {
-        super(key);
+    public ExtensiveUser(Entity entity) {
+        super(entity);
         generateRelations();
     }
 
-    public ExtensiveUser(String id) {
-        super(id);
-        generateRelations();
-    }
-    public ExtensiveUser(String email, int dumbVarialble){
-        super(email,dumbVarialble);
+    public ExtensiveUser(String email){
+        super(email);
         generateRelations();
     }
 
@@ -65,9 +61,9 @@ public class ExtensiveUser extends User{
     //Cette fonction est à revoir (mais fonctionnne)
     public void generateContentList(String filter,String list){
         Query.Filter userFilter =
-                new Query.FilterPredicate("UserId",
+                new Query.FilterPredicate("Email",
                         Query.FilterOperator.EQUAL,
-                        getId());
+                        getEmail());
 
         Query.Filter relationTypeFilter =
                 new Query.FilterPredicate("RelationType",
@@ -81,19 +77,19 @@ public class ExtensiveUser extends User{
         List<Entity> contents = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
         switch (list){
             case "myList":
-                this.myList = new ArrayList<RelationToContent>();
+                this.myList = new ArrayList<>();
                 for(int i = 0; i<contents.size(); i++){
                     this.myList.add(new RelationToContent(contents.get(i).getKey()));
                 }
                 break;
             case "contentUserLikes":
-                this.contentUserLikes = new ArrayList<RelationToContent>();
+                this.contentUserLikes = new ArrayList<>();
                 for(int i = 0; i<contents.size(); i++){
                     this.contentUserLikes.add(new RelationToContent(contents.get(i).getKey()));
                 }
                 break;
             case "contentUserDoesntLike":
-                this.contentUserDoesntLike = new ArrayList<RelationToContent>();
+                this.contentUserDoesntLike = new ArrayList<>();
                 for(int i = 0; i<contents.size(); i++){
                     this.contentUserDoesntLike.add(new RelationToContent(contents.get(i).getKey()));
                 }

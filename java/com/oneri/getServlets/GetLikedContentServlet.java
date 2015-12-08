@@ -36,15 +36,15 @@ public class GetLikedContentServlet extends HttpServlet {
             return;
         }
 
-        ExtensiveUser user = new ExtensiveUser(email,0);
+        ExtensiveUser user = new ExtensiveUser(email);
         PrintWriter out = resp.getWriter();
 
-        resp.setContentType("application/xml");
+        resp.setContentType("application/json");
         ArrayList<Content> myList = new ArrayList<>();
         for(int i = 0; i<user.getContentUserLikes().size();i++){
             myList.add(user.getContentUserLikes().get(i).getContent());
         }
-        out.println(MyUtil.contentsListToXML(myList));
+        out.println(MyUtil.contentsListToJSON(myList));
         return;
     }
 

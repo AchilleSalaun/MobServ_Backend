@@ -4,14 +4,18 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.apphosting.datastore.DatastoreV4;
 import com.oneri.database.ObjectFromDB;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,36 +24,28 @@ import java.util.Map;
 public class Content extends ObjectFromDB {
 
     private static final String type = "Content";
+    private boolean inCache = false;
+    private String commercialLink = "undefined";
+    private String contentType = "undefined";
+    private String creator = "undefined";
+    private String description = "undefined";
+    private String imageURL = "undefined";
+    private String title = "undefined";
 
-    private String commercialLink = "undefined commercial link";
-    private String contentType = "undefined content type";
-    private String creator = "undefined creator";
-    private String description = "undefined description";
-    private String imageURL = "undefined image URL";
-    private String title = "undefined title";
-
-    public Content(Key key) {
-        super(key);
-        Entity entity = getEntityFromDB();
-        initFromEntity(entity);
-    }
-    public Content(String id) {
-        super(id);
-        Entity entity = getEntityFromDB();
-        initFromEntity(entity);
-    }
     public Content(String title,String contentType){
         super();
         Key key = KeyFactory.createKey(type, title + contentType);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        try {
-            Entity result = datastore.get(key);
-            initFromEntity(result);
-            setKey(result.getKey());
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        }
+        this.setKey(key);
+        this.title=title;
+        this.contentType = contentType;
     }
+
+    public Content(Entity entity){
+        super(entity.getKey());
+        initFromEntity(entity);
+    }
+
+
     public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
         super();
         this.commercialLink = commercialLink;
@@ -77,33 +73,44 @@ public class Content extends ObjectFromDB {
         this.description = (String) entity.getProperty("Description");
         this.imageURL = (String) entity.getProperty("ImageURL");
         this.title = (String) entity.getProperty("Title");
+        this.inCache = true;
     }
-    public Entity createEntity(){
-        Entity contact;
-        contact = new Entity(type, title + contentType);
-        contact.setProperty("CommercialLink", commercialLink);
-        contact.setProperty("ContentType", contentType);
-        contact.setProperty("Creator", creator);
-        contact.setProperty("Description", description);
-        contact.setProperty("ImageURL", imageURL);
-        contact.setProperty("Title", title);
-        return contact;
+
+    @Override
+    public Entity getEntity(){
+        Entity content;
+        if(inCache){
+            content = new Entity(type, title + contentType);
+            content.setProperty("CommercialLink", commercialLink);
+            content.setProperty("ContentType", contentType);
+            content.setProperty("Creator", creator);
+            content.setProperty("Description", description);
+            content.setProperty("ImageURL", imageURL);
+            content.setProperty("Title", title);
+        }else{
+            content = this.getEntityFromDB();
+            initFromEntity(content);
+        }
+        return content;
     }
 
     public static String getType() {
         return type;
     }
 
-    public String getCommercialLink() {
-        return commercialLink;
-    }
+    public String getCommercialLink() {return commercialLink;}
 
     public void setCommercialLink(String commercialLink) {
         this.commercialLink = commercialLink;
     }
 
     public String getContentType() {
+
+        if (contentType.equals("undefined"))
+            this.contentType = this.getInDB("ContentType");
+
         return contentType;
+
     }
 
     public void setContentType(String contentType) {
@@ -135,10 +142,27 @@ public class Content extends ObjectFromDB {
     }
 
     public String getTitle() {
+        if (title.equals("undefined"))
+            this.title = this.getInDB("Title");
+
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+
+    private String getInDB(String property){
+        Query.Filter keyFilter =
+                new Query.FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+                        Query.FilterOperator.EQUAL,
+                        this.getKey());
+        Query q =  new Query(type).setFilter(keyFilter);
+        q.addProjection(new PropertyProjection(property,String.class));
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery pq = datastore.prepare(q);
+        Entity entity= pq.asSingleEntity();
+        return (String)entity.getProperty(property);
     }
 }

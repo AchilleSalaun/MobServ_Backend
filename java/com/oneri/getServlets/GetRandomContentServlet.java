@@ -35,10 +35,11 @@ public class GetRandomContentServlet extends HttpServlet {
     int randomInt = randomGenerator.nextInt(contents.size());
     PrintWriter out = resp.getWriter();
 
-    resp.setContentType("application/xml");
+    resp.setContentType("application/json");
         ArrayList<Content> list = new ArrayList<>();
-        list.add(new Content(contents.get(randomInt).getKey()));
-    out.println(MyUtil.contentsListToXML(list));
+        Entity random= contents.get(randomInt);
+        list.add(new Content((String)random.getProperty("Title"),(String)random.getProperty("ContentType")));
+    out.println(MyUtil.contentsListToJSON(list));
     return;
     }
 }

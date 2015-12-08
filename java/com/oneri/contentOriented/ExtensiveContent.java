@@ -43,14 +43,13 @@ public class ExtensiveContent extends Content{
         this.usersWhoDoesntLike = userWhoDoesntLike;
     }
 
-
-    public ExtensiveContent(Key key) {
-        super(key);
+    public ExtensiveContent(Content content){
+        super(content.getTitle(), content.getContentType());
         generateRelations();
     }
 
-    public ExtensiveContent(String id) {
-        super(id);
+    public ExtensiveContent(String title, String contentType) {
+        super(title, contentType);
         generateRelations();
     }
 
@@ -62,17 +61,21 @@ public class ExtensiveContent extends Content{
 
     //Cette fonction est à revoir (mais fonctionnne)
     public void generateContentList(String filter,String list){
-        Query.Filter userFilter =
-                new Query.FilterPredicate("ContentId",
+        Query.Filter titleFilter =
+                new Query.FilterPredicate("Title",
                         Query.FilterOperator.EQUAL,
-                        getId());
+                        getTitle());
+        Query.Filter contentTypeFilter =
+                new Query.FilterPredicate("ContentType",
+                        Query.FilterOperator.EQUAL,
+                        getContentType());
 
         Query.Filter relationTypeFilter =
                 new Query.FilterPredicate("RelationType",
                         Query.FilterOperator.EQUAL,
                         filter);
 
-        Query.Filter validFilter = Query.CompositeFilterOperator.and(userFilter, relationTypeFilter);
+        Query.Filter validFilter = Query.CompositeFilterOperator.and(titleFilter, contentTypeFilter, relationTypeFilter);
 
         Query q = new Query("Relation").setFilter(validFilter);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -118,7 +121,7 @@ public class ExtensiveContent extends Content{
     public ArrayList<RelationToUser> getUsersWhoLikes() {return this.usersWhoLikes ;}
     public ArrayList<RelationToUser> getUsersWhoDoesntLike() {return this.usersWhoDoesntLike ;}
 
-    public String commentsToXML(){
+    public String commentsToJSON(){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
         for (int i = 0; i < usersWhoLikes.size(); i++) {
@@ -132,13 +135,6 @@ public class ExtensiveContent extends Content{
             user.toJSON(userJSON);
             results.put(userJSON);
         }
-        String xml = null;
-        try {
-            xml = XML.toString(results, "song");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //return results.toString();
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><music>" + xml + "</music>";
+        return results.toString();
     }
 }

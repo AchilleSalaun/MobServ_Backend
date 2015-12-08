@@ -48,7 +48,7 @@ public class RecommendatorServlet extends HttpServlet
             int a = 0;
             return;
         }
-        ExtensiveUser user1 = new ExtensiveUser(email,1);
+        ExtensiveUser user1 = new ExtensiveUser(email);
         Recommendator recommendator = null;
         try
         {
@@ -62,6 +62,6 @@ public class RecommendatorServlet extends HttpServlet
         ArrayList<ExtensiveContent> list1 = recommendator.recommend(user1);
         PrintWriter out = resp.getWriter();
 
-        out.println(MyUtil.sortedListToXML(list1));
+        out.println(MyUtil.sortedListToJSON(list1));
     }
 }

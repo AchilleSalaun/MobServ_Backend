@@ -42,12 +42,13 @@ public class GetRecommendationsServlet extends HttpServlet {
         List<Entity> entityList = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
         ArrayList<Content> contentList = new ArrayList<>();
         for(int i = 0; i<entityList.size(); i++){
-            contentList.add(new Content(entityList.get(i).getKey()));
+            Entity entity = entityList.get(i);
+            contentList.add(new Content((String)entity.getProperty("Title"),(String)entity.getProperty("Title")));
         }
         PrintWriter out = resp.getWriter();
 
-        resp.setContentType("application/xml");
-        out.println(MyUtil.contentsListToXML(contentList));
+        resp.setContentType("application/json");
+        out.println(MyUtil.contentsListToJSON(contentList));
         return;
     }
 }

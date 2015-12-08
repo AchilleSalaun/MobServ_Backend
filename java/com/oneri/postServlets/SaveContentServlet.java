@@ -6,6 +6,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by Gaby on 17/10/2015.
  */
-public class SaveContentServlet extends javax.servlet.http.HttpServlet{
+public class SaveContentServlet extends javax.servlet.http.HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/plain");
@@ -30,6 +32,12 @@ public class SaveContentServlet extends javax.servlet.http.HttpServlet{
         String description = req.getParameter("description");
         String commercialLink = req.getParameter("commercialLink");
 
+        if (!(contentType.equals("movie") || contentType.equals("series") && contentType.equals("comic")
+                || contentType.equals("video game") || contentType.equals("book") || contentType.equals("music")) ){
+            resp.getWriter().println(contentType + " n'est pas un type valide");
+            return;
+        }
+
         // Take a reference of the datastore
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -43,15 +51,38 @@ public class SaveContentServlet extends javax.servlet.http.HttpServlet{
         content.setProperty("ContentType", contentType);
         content.setProperty("Creator", creator);
         content.setProperty("ImageURL", imageURL);
-        content.setProperty("Description",description);
-        content.setProperty("CommercialLink",commercialLink);
+        content.setProperty("Description", description);
+        content.setProperty("CommercialLink", commercialLink);
+
+        //permet de vérifier si aucun champ n'est nul
+        if (checkContact(content, resp)) {
+            return;
+        }
 
         // Save in the Datastore
         datastore.put(content);
-        resp.getWriter().println("Content"+ title + " saved with key " +
+        resp.getWriter().println("Content" + title + " saved with key " +
                 KeyFactory.keyToString(content.getKey()));
 
         //Go to appengine.google.com to see the DB
+
+    }
+
+    public boolean checkContact(Entity entity, HttpServletResponse resp) throws IOException {
+
+
+        Map<String, Object> map = entity.getProperties();
+        Iterator iterator = map.keySet().iterator();
+        while (iterator.hasNext()) {
+            String key = (String) iterator.next();
+            String value = (String) map.get(key);
+            if (value == null) {
+                resp.getWriter().println(key + " est null so " + entity.getProperty("Title") + " cannot be saved in the database");
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

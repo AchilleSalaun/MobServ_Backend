@@ -25,12 +25,12 @@ public class GetMyInfosServlet extends HttpServlet {
             return;
         }
 
-        User user = new User(email,0);
+        User user = new User(email);
         PrintWriter out = resp.getWriter();
-        resp.setContentType("application/xml");
+        resp.setContentType("application/json");
         ArrayList<User> myList = new ArrayList<>();
         myList.add(user);
-        out.println(MyUtil.usersListToXML(myList));
+        out.println(MyUtil.usersListToJSON(myList));
         return;
     }
 

@@ -1,6 +1,7 @@
 package com.oneri.contentOriented;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.Relation;
 import com.oneri.SuperClasses.User;
@@ -14,21 +15,21 @@ public class RelationToUser extends Relation{
 
     public RelationToUser(Key key) {
         super(key);
-        setUserFromDB();}
+        setUserFromRelation();}
     public RelationToUser(String id) {super(id);
-        setUserFromDB();}
+        setUserFromRelation();}
 
-    public RelationToUser(Key key, String relationType, String comment, String contentId, String userId) {
-        super(key, relationType, comment, contentId, userId);
-        setUserFromDB();}
+    public RelationToUser(Key key, String relationType, String comment, String title, String email, String contentType) {
+        super(key, relationType, comment, title, email, contentType);
+        setUserFromRelation();}
 
-    public RelationToUser(String relationType, String comment, String contentId, String userId) {
-        super(relationType, comment, contentId, userId);
-        setUserFromDB();}
+    public RelationToUser(String relationType, String comment, String title, String email, String contentType) {
+        super(relationType, comment, title, email, contentType);
+        setUserFromRelation();}
 
     public User getUser() {return user;}
 
     public void setUser(User user) {this.user = user;}
 
-    public void setUserFromDB(){this.user = new User(this.getUserId());}
+    public void setUserFromRelation(){this.user = new User(getEmail());}
 }

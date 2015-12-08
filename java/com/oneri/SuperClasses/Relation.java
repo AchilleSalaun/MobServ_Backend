@@ -12,8 +12,9 @@ public class Relation extends ObjectFromDB {
     private static final String type = "Relation";
     private String relationType;
     private String comment;
-    private String contentId;
-    private String userId;
+    private String title;
+    private String contentType;
+    private String email;
 
     public Relation(Key key) {
         super(key);
@@ -23,32 +24,39 @@ public class Relation extends ObjectFromDB {
     public Relation (String id){
         super(id);
     }
-    public Relation(Key key,String relationType,String comment, String contentId, String userId) {
+
+    public Relation(Key key,String relationType,String comment, String title, String email, String contentType) {
         super(key);
         this.relationType = relationType;
         this.comment = comment;
-        this.contentId = contentId;
-        this.userId = userId;
+        this.contentType = contentType;
+        this.title = title;
+        this.email = email;
     }
-    public Relation(String relationType,String comment, String contentId, String userId){
+    public Relation(String relationType,String comment, String title, String email, String contentType){
         super();
         this.relationType = relationType;
         this.comment = comment;
-        this.contentId = contentId;
-        this.userId = userId;
+        this.title = title;
+        this.email = email;
+        this.contentType = contentType;
     }
 
     private void initFromEntity(Entity entity){
         this.relationType = (String)entity.getProperty("RelationType");
         this.comment = (String)entity.getProperty("Comment");
-        this.contentId = (String)entity.getProperty("ContentId");
-        this.userId = (String)entity.getProperty("UserId");
+        this.title = (String)entity.getProperty("Title");
+        this.contentType = (String)entity.getProperty("ContentType");
+        this.email = (String)entity.getProperty("Email");
     }
-    public Entity createEntity() {
+
+    @Override
+    public Entity getEntity() {
         Entity entity;
-        entity = new Entity(type, userId + contentId);
-        entity.setProperty("ContentId", contentId);
-        entity.setProperty("UserId", userId);
+        entity = new Entity(type, email + title + contentType);
+        entity.setProperty("Title", title);
+        entity.setProperty("ContentType", contentType);
+        entity.setProperty("Email", email);
         entity.setProperty("RelationType", relationType);
         entity.setProperty("Comment", comment);
         return entity;
@@ -74,19 +82,27 @@ public class Relation extends ObjectFromDB {
         this.comment = comment;
     }
 
-    public String getContentId() {
-        return contentId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setContentId(String contentId) {
-        this.contentId = contentId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getContentType() {
+        return contentType;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

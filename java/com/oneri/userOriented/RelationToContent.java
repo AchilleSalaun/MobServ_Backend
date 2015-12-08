@@ -1,6 +1,7 @@
 package com.oneri.userOriented;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.Relation;
 import com.oneri.SuperClasses.User;
@@ -23,13 +24,13 @@ public class RelationToContent extends Relation {
         setContentFromDB();
     }
 
-    public RelationToContent(Key key, String relationType, String comment, String contentId, String userId) {
-        super(key, relationType, comment, contentId, userId);
+    public RelationToContent(Key key, String relationType, String comment, String title, String email, String contentType) {
+        super(key, relationType, comment, title, email, contentType);
         setContentFromDB();
     }
 
-    public RelationToContent(String relationType, String comment, String contentId, String userId) {
-        super(relationType, comment, contentId, userId);
+    public RelationToContent(String relationType, String comment, String title, String email, String contentType) {
+        super(relationType, comment, title, email, contentType);
         setContentFromDB();
     }
 
@@ -39,12 +40,12 @@ public class RelationToContent extends Relation {
     public ExtensiveContent getExtensiveContent()
     {
         Content content = this.getContent() ;
-        return new ExtensiveContent(content.getKey()) ;
+        return new ExtensiveContent(content) ;
     }
 
     public void setContent(Content content) {this.content = content;}
 
-    public void setContentFromDB(){this.content = new Content(this.getContentId());}
+    public void setContentFromDB(){this.content = new Content(getTitle(), getContentType());}
 
 
 
