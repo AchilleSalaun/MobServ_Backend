@@ -43,11 +43,16 @@ public class ExtensiveContent extends Content{
         this.usersWhoDoesntLike = userWhoDoesntLike;
     }
 
-
-    public ExtensiveContent(Key key) {
-        super(key);
+    public ExtensiveContent(Content content){
+        super(content.getTitle(), content.getContentType());
         generateRelations();
     }
+
+
+    /*public ExtensiveContent(Key key) {
+        super(key);
+        generateRelations();
+    }*/
 
     public ExtensiveContent(String id) {
         super(id);

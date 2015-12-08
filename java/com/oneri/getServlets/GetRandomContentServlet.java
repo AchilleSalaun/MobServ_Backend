@@ -37,7 +37,8 @@ public class GetRandomContentServlet extends HttpServlet {
 
     resp.setContentType("application/json");
         ArrayList<Content> list = new ArrayList<>();
-        list.add(new Content(contents.get(randomInt).getKey()));
+        Entity random= contents.get(randomInt);
+        list.add(new Content((String)random.getProperty("Title"),(String)random.getProperty("ContentType")));
     out.println(MyUtil.contentsListToJSON(list));
     return;
     }

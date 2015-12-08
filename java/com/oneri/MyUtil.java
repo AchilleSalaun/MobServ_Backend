@@ -106,8 +106,9 @@ public class MyUtil {
         while (contentsEntity.size() > 0 && list.size() < n) {
             Random randomGenerator = new Random();
             int randomInt = randomGenerator.nextInt(contentsEntity.size());
+            Entity entity = contentsEntity.get(randomInt);
 
-            list.add(new ExtensiveContent(contentsEntity.get(randomInt).getKey()));
+            list.add(new ExtensiveContent((String)entity.getProperty("Title"),(String)entity.getProperty("ContentType")));
             contentsEntity.remove(randomInt);
 
         }

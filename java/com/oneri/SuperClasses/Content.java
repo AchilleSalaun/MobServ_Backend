@@ -32,9 +32,7 @@ public class Content extends ObjectFromDB {
     private String imageURL = "undefined";
     private String title = "undefined";
 
-    public Content(Key key) {
-        super(key);
-    }
+    //public Content(Key key) {super(key);}
     public Content(String id) {
         super(id);
     }
@@ -42,6 +40,8 @@ public class Content extends ObjectFromDB {
         super();
         Key key = KeyFactory.createKey(type, title + contentType);
         this.setKey(key);
+        this.title=title;
+        this.contentType = contentType;
     }
     public Content(String commercialLink, String contentType, String creator, String description, String imageURL, String title) {
         super();

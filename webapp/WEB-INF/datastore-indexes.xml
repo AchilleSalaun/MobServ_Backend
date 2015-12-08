@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes
+    autoGenerate="true">
+    <datastore-index kind="Content" ancestor="false" source="manual">
+        <property name="__key__" direction="asc"/>
+        <property name="Title" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Content" ancestor="false" source="manual">
+        <property name="__key__" direction="asc"/>
+        <property name="ContentType" direction="asc"/>
+    </datastore-index>
+</datastore-indexes>

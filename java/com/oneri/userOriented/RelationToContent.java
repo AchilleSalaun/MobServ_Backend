@@ -40,7 +40,7 @@ public class RelationToContent extends Relation {
     public ExtensiveContent getExtensiveContent()
     {
         Content content = this.getContent() ;
-        return new ExtensiveContent(content.getKey()) ;
+        return new ExtensiveContent(content) ;
     }
 
     public void setContent(Content content) {this.content = content;}
