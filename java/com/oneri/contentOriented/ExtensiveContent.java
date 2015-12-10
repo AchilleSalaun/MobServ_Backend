@@ -76,19 +76,19 @@ public class ExtensiveContent extends Content{
             case "waiting":
                 this.onListOf = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.onListOf.add(new RelationToUser(contents.get(i).getKey()));
+                    this.onListOf.add(new RelationToUser(contents.get(i)));
                 }
                 break;
             case "likes":
                 this.usersWhoLikes = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.usersWhoLikes.add(new RelationToUser(contents.get(i).getKey()));
+                    this.usersWhoLikes.add(new RelationToUser(contents.get(i)));
                 }
                 break;
             case "doesn't like":
                 this.usersWhoDoesntLike = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
-                    this.usersWhoDoesntLike.add(new RelationToUser(contents.get(i).getKey()));
+                    this.usersWhoDoesntLike.add(new RelationToUser(contents.get(i)));
                 }
                 break;
             default: System.out.println("regarde dans le switch");

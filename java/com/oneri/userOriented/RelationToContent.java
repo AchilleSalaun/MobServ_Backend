@@ -1,11 +1,13 @@
 package com.oneri.userOriented;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.Relation;
 import com.oneri.SuperClasses.User;
 import com.oneri.contentOriented.ExtensiveContent;
+
 
 /**
  * Created by Gaby on 23/10/2015.
@@ -14,11 +16,11 @@ public class RelationToContent extends Relation {
 
     private Content content;
 
-    public RelationToContent(Key key) {
-        super(key);
+
+    public RelationToContent(Entity entity){
+        super(entity);
         setContentFromDB();
     }
-
     public RelationToContent(String id) {
         super(id);
         setContentFromDB();
