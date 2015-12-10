@@ -43,7 +43,7 @@ public class GetRecommendationsServlet extends HttpServlet {
         ArrayList<Content> contentList = new ArrayList<>();
         for(int i = 0; i<entityList.size(); i++){
             Entity entity = entityList.get(i);
-            contentList.add(new Content((String)entity.getProperty("Title"),(String)entity.getProperty("Title")));
+            contentList.add(new Content(entity));
         }
         PrintWriter out = resp.getWriter();
 
