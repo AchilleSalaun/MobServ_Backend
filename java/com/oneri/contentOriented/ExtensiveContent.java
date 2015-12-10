@@ -117,7 +117,7 @@ public class ExtensiveContent extends Content{
     }
 
     public ArrayList<RelationToUser> getUsersWhoDoesntLike() {
-        if(this.usersWhoLikes == null)
+        if(this.usersWhoDoesntLike == null)
             generateContentList("doesn't like");
         return this.usersWhoDoesntLike ;}
 
