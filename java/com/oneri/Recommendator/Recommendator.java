@@ -160,7 +160,7 @@ public class Recommendator
 
                 double d2 = distanceUser(o2, reference);
 
-                return((int) Math.signum(d1 - d2));
+                return(Double.compare(d1,d2));
             }
         };
 
@@ -234,7 +234,7 @@ public class Recommendator
 
                 double d2 = distanceObjectToList(o2, reference);
 
-                return((int) Math.signum(d1-d2)) ;
+                return(Double.compare(d1,d2)) ;
             }
         };
 
