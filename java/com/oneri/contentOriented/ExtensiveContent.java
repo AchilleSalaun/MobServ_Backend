@@ -45,22 +45,14 @@ public class ExtensiveContent extends Content{
 
     public ExtensiveContent(Content content){
         super(content.getTitle(), content.getContentType());
-        generateRelations();
     }
 
     public ExtensiveContent(String title, String contentType) {
         super(title, contentType);
-        generateRelations();
     }
 
-    public void generateRelations(){
-        generateContentList("waiting","myList");
-        generateContentList("likes", "contentUserLikes");
-        generateContentList("doesn't like", "userWhoDoesntLike");
-    }
-
-    //Cette fonction est à revoir (mais fonctionnne)
-    public void generateContentList(String filter,String list){
+    //relationType=waiting, likes or doesn't like
+    public void generateContentList(String relationType){
         Query.Filter titleFilter =
                 new Query.FilterPredicate("Title",
                         Query.FilterOperator.EQUAL,
@@ -73,27 +65,27 @@ public class ExtensiveContent extends Content{
         Query.Filter relationTypeFilter =
                 new Query.FilterPredicate("RelationType",
                         Query.FilterOperator.EQUAL,
-                        filter);
+                        relationType);
 
         Query.Filter validFilter = Query.CompositeFilterOperator.and(titleFilter, contentTypeFilter, relationTypeFilter);
 
         Query q = new Query("Relation").setFilter(validFilter);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         List<Entity> contents = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
-        switch (list){
-            case "myList":
+        switch (relationType){
+            case "waiting":
                 this.onListOf = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
                     this.onListOf.add(new RelationToUser(contents.get(i).getKey()));
                 }
                 break;
-            case "contentUserLikes":
+            case "likes":
                 this.usersWhoLikes = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
                     this.usersWhoLikes.add(new RelationToUser(contents.get(i).getKey()));
                 }
                 break;
-            case "userWhoDoesntLike":
+            case "doesn't like":
                 this.usersWhoDoesntLike = new ArrayList<RelationToUser>();
                 for(int i = 0; i<contents.size(); i++){
                     this.usersWhoDoesntLike.add(new RelationToUser(contents.get(i).getKey()));
@@ -118,8 +110,22 @@ public class ExtensiveContent extends Content{
     }
 
     /* GETTERS */
-    public ArrayList<RelationToUser> getUsersWhoLikes() {return this.usersWhoLikes ;}
-    public ArrayList<RelationToUser> getUsersWhoDoesntLike() {return this.usersWhoDoesntLike ;}
+    public ArrayList<RelationToUser> getUsersWhoLikes() {
+        if(this.usersWhoLikes == null)
+            generateContentList("likes");
+        return this.usersWhoLikes ;
+    }
+
+    public ArrayList<RelationToUser> getUsersWhoDoesntLike() {
+        if(this.usersWhoLikes == null)
+            generateContentList("doesn't like");
+        return this.usersWhoDoesntLike ;}
+
+    public ArrayList<RelationToUser> getOnListOf() {
+        if(onListOf == null)
+            generateContentList("waiting");
+        return onListOf;
+    }
 
     public String commentsToJSON(){
         JSONArray results = new JSONArray();

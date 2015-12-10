@@ -198,8 +198,11 @@ public class Recommendator
             else d++ ;
         }
 
-        for(RelationToUser r1 : content1.getUsersWhoDoesntLike())
+        ArrayList<RelationToUser> relationList = content1.getUsersWhoDoesntLike();
+
+        for(int i =0; i<relationList.size(); i ++)
         {
+            RelationToUser r1 = relationList.get(i);
             if(content2.getUsersWhoDoesntLike().contains(r1)) d=d+3 ;
             else if (content2.getUsersWhoDoesntLike().contains(r1)) d-- ;
             else d++ ;
