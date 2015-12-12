@@ -165,4 +165,10 @@ public class Content extends ObjectFromDB {
         Entity entity= pq.asSingleEntity();
         return (String)entity.getProperty(property);
     }
+
+    @Override
+    public boolean equals(Object content){
+        Content content1 = (Content) content;
+        return(title.equals(content1.getTitle()) && contentType.equals(content1.getContentType()));
+    }
 }
