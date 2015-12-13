@@ -49,13 +49,11 @@ public class ExtensiveUser extends User{
     public ExtensiveUser(Entity entity) {
         super(entity);
         initializeCache();
-        this.myList = new ArrayList<>();
     }
 
     public ExtensiveUser(String email){
         super(email);
         initializeCache();
-        this.myList = new ArrayList<>();
     }
 
     //Cette fonction est à revoir (mais fonctionnne)
@@ -98,6 +96,7 @@ public class ExtensiveUser extends User{
         }
     }
 
+    /*
     public void generateContentList(String relationType,String contentType){
         Query.Filter userFilter =
                 new Query.FilterPredicate("Email",
@@ -140,7 +139,7 @@ public class ExtensiveUser extends User{
                 break;
             default: System.out.println("regarde dans le switch");
         }
-    }
+    }*/
 
     public void putInDBWithRelations(){
         putInDB();
