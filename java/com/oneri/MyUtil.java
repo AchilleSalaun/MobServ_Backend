@@ -11,6 +11,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.appengine.labs.repackaged.org.json.XML;
+import com.oneri.Recommendator.Recommendator;
 import com.oneri.SuperClasses.Content;
 import com.oneri.SuperClasses.User;
 import com.oneri.contentOriented.ExtensiveContent;
@@ -60,11 +61,17 @@ public class MyUtil {
         return results.toString();
     }
 
-    public static ArrayList<ExtensiveContent> toArray(ExtensiveUser user){
+    public static ArrayList<ExtensiveContent> toArray(ExtensiveUser user, String type)
+    {
         ArrayList<ExtensiveContent> myList = new ArrayList<>();
         for(int i = 0; i<user.getContentUserLikes().size();i++)
         {
-            myList.add(user.getContentUserLikes().get(i).getExtensiveContent());
+            ExtensiveContent content = user.getContentUserLikes().get(i).getExtensiveContent();
+            // si aucun type n'est specifie ou le contenu correspond au type specifie
+            if(!Recommendator.TYPE_LIST.contains(type) || content.getContentType()==type)
+            {
+                myList.add(content);
+            }
         }
         return myList;
     }
@@ -84,9 +91,8 @@ public class MyUtil {
             if(user==reference)
             {
                 list.add(user);
-                usersEntity.remove(randomInt);
             }
-
+            usersEntity.remove(randomInt);
         }
         return list ;
     }

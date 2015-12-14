@@ -25,7 +25,7 @@ public class Recommendator
     private String type ;
     //
 
-    private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "video game", "comic", "series")) ;
+    public static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "video game", "comic", "series")) ;
 
     // initialization of a Recommendator by default
     public Recommendator()
@@ -282,26 +282,26 @@ public class Recommendator
     public ArrayList<ExtensiveContent> recommend(ExtensiveUser user)
     {
         // First, we look for similar users :
-        ArrayList<ExtensiveUser> similarUsers = this.getSimilarUserTo(user) ; /** DB Access **/
+        ArrayList<ExtensiveUser> similarUsers = this.getSimilarUserTo(user) ; /** DB Access **/ /** all users except me**/
 
-        // We get all the content they like in the same list
+        // We get all the content (filtered by type) they like in the same list
         ArrayList<ExtensiveContent> recommendedContent = new ArrayList<>() ;
         for(ExtensiveUser u : similarUsers)
-        {recommendedContent.addAll(MyUtil.toArray(u));}
+        {recommendedContent.addAll(MyUtil.toArray(u,this.type));}
 
-        // We add similar content to each content liked by the similar users :
+        // We add similar content (filtered by type) to each content liked by the similar users :
         ArrayList<ExtensiveContent> aux = new ArrayList<>() ;
 
         aux.addAll(getSimilarContentTo(recommendedContent)) ; /** DB Access **/
         recommendedContent.addAll(aux);
 
-        // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user)) as reference :
-        ArrayList<ExtensiveContent> recommendation = this.sortContentList(MyUtil.toArray(user), recommendedContent) ;
+        // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user,"all")) as reference :
+        ArrayList<ExtensiveContent> recommendation = this.sortContentList(MyUtil.toArray(user,"all"), recommendedContent) ;
 
         // Remove any redundancy
         this.killContentPairs(recommendation) ;
 
-        /******************************************/
+        /**
         ArrayList<Integer> mauvais = new ArrayList<>();
 
         for(int i=0;i<recommendation.size();i++){
@@ -312,7 +312,7 @@ public class Recommendator
 
         for(int i=mauvais.size()-1;i>=0;i--)
             recommendation.remove((int)mauvais.get(i));
-        /******************************************/
+        **/
         return recommendation ;
     }
 
