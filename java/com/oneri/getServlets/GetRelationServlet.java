@@ -46,11 +46,11 @@ public class GetRelationServlet extends HttpServlet {
 
         try {
             Entity relation = datastore.get(myKey);
-            resp.getWriter().println("{RelationType:" + relation.getProperty("RelationType")+"}");
+            resp.getWriter().println("[{\"RelationType\":\"" + relation.getProperty("RelationType")+"\"}]");
 
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
-            resp.getWriter().println("no relation");
+            resp.getWriter().println("[{\"RelationType\":\"no relation\"}]");
         }
         return;
     }

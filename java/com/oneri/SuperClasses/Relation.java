@@ -16,13 +16,19 @@ public class Relation extends ObjectFromDB {
     private String contentType;
     private String email;
 
-    public Relation(Key key) {
+    /*public Relation(Key key) {
         super(key);
         Entity entity = getEntityFromDB();
         initFromEntity(entity);
-    }
+    }*/
     public Relation (String id){
         super(id);
+    }
+
+    public Relation(Entity entity){
+        super();
+        this.setKey(entity.getKey());
+        initFromEntity(entity);
     }
 
     public Relation(Key key,String relationType,String comment, String title, String email, String contentType) {

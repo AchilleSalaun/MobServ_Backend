@@ -173,7 +173,6 @@ public class Recommendator
 
     public ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
     {
-
         ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(this.n_sample,reference); /** DB Access **/
         ArrayList<ExtensiveUser> sortedUsers = this.sortUserList(reference, sampleUser);
 

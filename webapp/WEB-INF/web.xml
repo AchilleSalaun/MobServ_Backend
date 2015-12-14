@@ -147,8 +147,6 @@
         <url-pattern>/saveContent</url-pattern><!--Works-->
     </servlet-mapping>
 
-
-
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
