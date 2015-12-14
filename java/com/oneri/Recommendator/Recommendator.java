@@ -294,8 +294,8 @@ public class Recommendator
         aux.addAll(getSimilarContentTo(recommendedContent)) ; /** DB Access **/
         recommendedContent.addAll(aux);
 
-        // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user,"all")) as reference :
-        ArrayList<ExtensiveContent> recommendation = this.sortContentList(MyUtil.toArray(user,"all"), recommendedContent) ;
+        // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user,this.type)) as reference :
+        ArrayList<ExtensiveContent> recommendation = this.sortContentList(MyUtil.toArray(user,this.type), recommendedContent) ;
 
         // Remove any redundancy
         this.killContentPairs(recommendation) ;
