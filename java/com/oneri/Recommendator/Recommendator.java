@@ -27,6 +27,7 @@ public class Recommendator
 
     private static final ArrayList<String> TYPE_LIST = new ArrayList<>(Arrays.asList("music", "movie","book", "video game", "comic", "series")) ;
 
+    // initialization of a Recommendator by default
     public Recommendator()
     {
         this.n_sample = 100 ;
@@ -67,7 +68,8 @@ public class Recommendator
 
     }
 
-    public void setN_recommendation(int n_recommendation) throws AttributeException {
+    public void setN_recommendation(int n_recommendation) throws AttributeException
+    {
         if(this.n_sample >= n_recommendation)
         {
             this.n_recommendation = n_recommendation ;
@@ -79,7 +81,8 @@ public class Recommendator
         }
     }
 
-    public void setType(String type) throws AttributeException {
+    public void setType(String type) throws AttributeException
+    {
         if(TYPE_LIST.contains(type))
         {
             this.type = type ;
@@ -160,7 +163,7 @@ public class Recommendator
 
                 double d2 = distanceUser(o2, reference);
 
-                return((int) Math.signum(d1 - d2));
+                return Double.compare(d1, d2);
             }
         };
 
@@ -170,7 +173,8 @@ public class Recommendator
 
     public ArrayList<ExtensiveUser> getSimilarUserTo(ExtensiveUser reference)
     {
-        ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(this.n_sample);
+
+        ArrayList<ExtensiveUser> sampleUser = MyUtil.userFromDB(this.n_sample,reference); /** DB Access **/
         ArrayList<ExtensiveUser> sortedUsers = this.sortUserList(reference, sampleUser);
 
         int n = sampleUser.size() ;
@@ -231,7 +235,7 @@ public class Recommendator
 
                 double d2 = distanceObjectToList(o2, reference);
 
-                return((int) Math.signum(d1-d2)) ;
+                return Double.compare(d1,d2);
             }
         };
 
@@ -241,7 +245,7 @@ public class Recommendator
 
     public ArrayList<ExtensiveContent> getSimilarContentTo(ArrayList<ExtensiveContent> reference)
     {
-        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(this.n_sample, this.type);
+        ArrayList<ExtensiveContent> sampleContent = MyUtil.contentFromDB(this.n_sample, this.type); /** DB Access **/
         ArrayList<ExtensiveContent> sortedContents = this.sortContentList(reference, sampleContent);
 
         ArrayList<ExtensiveContent> similarContent = new ArrayList<>() ;
@@ -278,7 +282,7 @@ public class Recommendator
     public ArrayList<ExtensiveContent> recommend(ExtensiveUser user)
     {
         // First, we look for similar users :
-        ArrayList<ExtensiveUser> similarUsers = this.getSimilarUserTo(user) ;
+        ArrayList<ExtensiveUser> similarUsers = this.getSimilarUserTo(user) ; /** DB Access **/
 
         // We get all the content they like in the same list
         ArrayList<ExtensiveContent> recommendedContent = new ArrayList<>() ;
@@ -288,15 +292,16 @@ public class Recommendator
         // We add similar content to each content liked by the similar users :
         ArrayList<ExtensiveContent> aux = new ArrayList<>() ;
 
-        aux.addAll(getSimilarContentTo(recommendedContent)) ;
+        aux.addAll(getSimilarContentTo(recommendedContent)) ; /** DB Access **/
         recommendedContent.addAll(aux);
 
         // Finally, we sort this new list of content, with user's tastes (MyUtil.toArray(user)) as reference :
         ArrayList<ExtensiveContent> recommendation = this.sortContentList(MyUtil.toArray(user), recommendedContent) ;
 
-        /** remove any redundancy **/
+        // Remove any redundancy
         this.killContentPairs(recommendation) ;
 
+        /******************************************/
         ArrayList<Integer> mauvais = new ArrayList<>();
 
         for(int i=0;i<recommendation.size();i++){
@@ -307,6 +312,7 @@ public class Recommendator
 
         for(int i=mauvais.size()-1;i>=0;i--)
             recommendation.remove((int)mauvais.get(i));
+        /******************************************/
         return recommendation ;
     }
 
@@ -343,7 +349,7 @@ public class Recommendator
     //            catch (DistanceException e)
     //            {e.printStackTrace();}
     //
-    //            return((int) Math.signum(d1-d2)) ;
+    //            return Double.compare(d1,d2);
     //        }
     //    };
     //    return new SortedList<ObjectFromDB>((ObservableList<ObjectFromDB>) list, comparator);

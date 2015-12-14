@@ -69,18 +69,24 @@ public class MyUtil {
         return myList;
     }
 
-    public static ArrayList<ExtensiveUser> userFromDB(int n)
+    public static ArrayList<ExtensiveUser> userFromDB(int n, ExtensiveUser reference)
     {
         ArrayList<ExtensiveUser> list = new ArrayList<ExtensiveUser>() ;
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         // Take the list of contacts ordered by name
         Query query = new Query("Contact").addSort("Name", Query.SortDirection.ASCENDING);
         List<Entity> usersEntity = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
-        while(usersEntity.size()>0 && list.size()<n){
+        while(usersEntity.size()>0 && list.size()<n)
+        {
             Random randomGenerator = new Random();
             int randomInt = randomGenerator.nextInt(usersEntity.size());
-            list.add(new ExtensiveUser(usersEntity.get(randomInt)));
-            usersEntity.remove(randomInt);
+            ExtensiveUser user = new ExtensiveUser(usersEntity.get(randomInt)) ;
+            if(user==reference)
+            {
+                list.add(user);
+                usersEntity.remove(randomInt);
+            }
+
         }
         return list ;
     }
