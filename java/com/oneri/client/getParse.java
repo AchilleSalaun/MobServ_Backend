@@ -1,5 +1,6 @@
 package com.oneri.client;
 
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,27 +18,34 @@ public class Main
     	//POUR LES FILMS
     	String user_input = "nemo";
 
-    	//String imdb_url_content = getFirstURLIMDBSearchResult(user_input);
-        //String title = getIMDBTitleName(imdb_url_content);
-        //String creator = getIMDBMovieDirector(imdb_url_content);
-        //String small_description = getIMDBSmallDescription(imdb_url_content);
-        //String image_url = getIMDBImageURL(imdb_url_content);
-        //String amazon_movie_commercial_link = getAmazonMovieCommercialLink(title);
-        String iblist_url_content = getFirstURLIblistSearchResult(user_input);
-        String title = getIblistTitleName(iblist_url_content);
-        String creator = getIblistAuthor(iblist_url_content);
-        String description = getIblistDescription(iblist_url_content);
-        String image_url = getIblistImageURL(iblist_url_content);
-        System.out.println(iblist_url_content);
-        System.out.println(title);
-        System.out.println(creator);
-        System.out.println(description);
-        System.out.println(image_url);
-        //System.out.println("Title : " + title);
-        //System.out.println("Director (Creator) : " + creator);
-        //System.out.println("Description : " + small_description);
-        //System.out.println("Image URL : " + image_url);
-        //System.out.println("Amazon Commercial Link : " + "Ne fonctionnera pas");
+    	String contentType = "Movie";
+    	
+    	if(contentType.equals("Movie")){
+	    	String imdb_url_content = getFirstURLIMDBSearchResult(user_input);
+	        String title = getIMDBTitleName(imdb_url_content);
+	        String creator = getIMDBMovieDirector(imdb_url_content);
+	        String small_description = getIMDBSmallDescription(imdb_url_content);
+	        String image_url = getIMDBImageURL(imdb_url_content);
+	        String amazon_movie_commercial_link = getAmazonMovieCommercialLink(title);
+    		System.out.println("Title : " + title);
+            System.out.println("Director (Creator) : " + creator);
+            System.out.println("Description : " + small_description);
+            System.out.println("Image URL : " + image_url);
+            System.out.println("Amazon Commercial Link : " + amazon_movie_commercial_link);
+    	}
+    	if(contentType.equals("Book")){
+	        String iblist_url_content = getFirstURLIblistSearchResult(user_input);
+	        String title = getIblistTitleName(iblist_url_content);
+	        String creator = getIblistAuthor(iblist_url_content);
+	        String description = getIblistDescription(iblist_url_content);
+	        String image_url = getIblistImageURL(iblist_url_content);
+	        System.out.println(iblist_url_content);
+	        System.out.println(title);
+	        System.out.println(creator);
+	        System.out.println(description);
+	        System.out.println(image_url);
+    	}
+        
 
         
         
@@ -197,17 +205,21 @@ public class Main
     	String amazon_commercial_link = "";
     	//String url = "http://www.amazon.co.uk/s/ref=nb_sb_noss_2?url=search-alias%3Ddvd&field-keywords=" + url_encoded_search_query + "&sprefix=" + url_encoded_search_query + "%2Caps%2CNaN)";
     	//String url = "http://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias%3Ddvd&field-keywords=reservoir+dogs&rh=n%3A283926%2Ck%3Areservoir+dogs";
-    	String url = "http://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias%3Ddvd&field-keywords=reservoir+dogs&rh=n%3A283926%2Ck%3Areservoir+dogs";
+    	//String url = "http://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias%3Ddvd&field-keywords=reservoir+dogs&rh=n%3A283926%2Ck%3Areservoir+dogs";
+    	String url = "http://www.amazon.co.uk/s/ref=nb_sb_ss_c_0_4?url=search-alias%3Ddvd&field-keywords=" + 
+    	url_encoded_search_query + "&sprefix=" + url_encoded_search_query + "%2Caps%2C170";
     	Document doc;
     	System.out.println(url_encoded_search_query);
     	try{
-    		doc = Jsoup.connect(url).get();
+    		doc = Jsoup.connect(url).timeout(100000).get();
     		
     		//Element link = doc.select("div[id=main]").select("div[id=rightContainerATF]").select("li[id=result_0]").select("div[class=a-row a-spacing-mini]").select("a[class=a-link-normal s-access-detail-page a-text-normal]").get(0);
 
-    		Element link = doc.select("div[id=main]").select("div[id=rightContainerATF]").select("li[id=result_0]").select("div[class=a-row a-spacing-mini]").select("div[class=a-row a-spacing-none]").select("a[class=a-link-normal s-access-detail-page a-text-normal]").get(0);
+    		Element link = doc.select("div[id=main]").select("div[id=rightContainerATF]").select("li[id=result_0]").
+    				select("div[class=a-row a-spacing-mini]").select("div[class=a-row a-spacing-none]").get(0).
+    				select("a[href]").get(0);
     
-    		//amazon_commercial_link = link.text();
+    		amazon_commercial_link = link.attr("href");
     	}catch(IOException e){
     		//return "IOException Jsoup.connect(url).get(0) getAmazonMovieCommercialLink " + url_encoded_search_query;
     		return e.getMessage();
