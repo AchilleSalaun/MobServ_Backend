@@ -2,6 +2,7 @@ package com.oneri.SuperClasses;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.oneri.database.ObjectFromDB;
 
 /**
@@ -46,6 +47,14 @@ public class Relation extends ObjectFromDB {
         this.title = title;
         this.email = email;
         this.contentType = contentType;
+    }
+
+    public Relation(String contentType, String title,String email){
+        super();
+        Key key = KeyFactory.createKey(type, email + title + contentType);
+        this.setKey(key);
+        Entity entity = this.getEntityFromDB();
+        initFromEntity(entity);
     }
 
     private void initFromEntity(Entity entity){

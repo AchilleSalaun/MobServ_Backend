@@ -130,9 +130,11 @@ public class ExtensiveContent extends Content{
     public String commentsToJSON(){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
-        for (int i = 0; i < usersWhoLikes.size(); i++) {
+        for (int i = 0; i < getUsersWhoLikes().size(); i++) {
             JSONObject relationJSON = new JSONObject();
             RelationToUser relation = usersWhoLikes.get(i);
+            if(relation.getComment().equals( "AUCUN COMMENTAIRE DANS LA V1"))
+                continue;
             relation.toJSON(relationJSON);
             results.put(relationJSON);
 
