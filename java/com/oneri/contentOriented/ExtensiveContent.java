@@ -138,10 +138,10 @@ public class ExtensiveContent extends Content{
             relation.toJSON(relationJSON);
             results.put(relationJSON);
 
-            JSONObject userJSON = new JSONObject();
-            User user = usersWhoLikes.get(i).getUser();
-            user.toJSON(userJSON);
-            results.put(userJSON);
+            //JSONObject userJSON = new JSONObject();
+            //User user = usersWhoLikes.get(i).getUser();
+            //user.toJSON(userJSON);
+            //results.put(userJSON);
         }
         return results.toString();
     }
