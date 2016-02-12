@@ -31,7 +31,7 @@ public class Recommendator
     public Recommendator()
     {
         this.n_sample = 100 ;
-        this.n_recommendation = 50 ;
+        this.n_recommendation = 20 ;
         this.type = "movie" ;
     }
     public Recommendator(int n_sample, int n_recommendation, String type) throws AttributeException

@@ -16,19 +16,21 @@ import javax.servlet.http.HttpServletResponse;
 public class GetCommentsServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+        PrintWriter out = resp.getWriter();
         String title = req.getParameter("title");
         if (title == null){
+            out.println("no title");
             return;
         }
 
         String contentType = req.getParameter("contentType");
         if (contentType == null){
+            out.println("no contentType");
             return;
         }
 
         ExtensiveContent extensiveContent = new ExtensiveContent(title, contentType);
-        PrintWriter out = resp.getWriter();
+
 
         resp.setContentType("application/json");
         out.println(extensiveContent.commentsToJSON());

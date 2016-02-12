@@ -130,16 +130,29 @@ public class ExtensiveContent extends Content{
     public String commentsToJSON(){
         JSONArray results = new JSONArray();
         ObjectFromDB content;
-        for (int i = 0; i < usersWhoLikes.size(); i++) {
+        for (int i = 0; i < getUsersWhoLikes().size(); i++) {
             JSONObject relationJSON = new JSONObject();
-            RelationToUser relation = usersWhoLikes.get(i);
+            RelationToUser relation = getUsersWhoLikes().get(i);
+            if(relation.getComment().equals( "AUCUN COMMENTAIRE DANS LA V1"))
+                continue;
             relation.toJSON(relationJSON);
             results.put(relationJSON);
-
-            JSONObject userJSON = new JSONObject();
-            User user = usersWhoLikes.get(i).getUser();
-            user.toJSON(userJSON);
-            results.put(userJSON);
+        }
+        for (int i = 0; i < getUsersWhoDoesntLike().size(); i++) {
+            JSONObject relationJSON = new JSONObject();
+            RelationToUser relation = getUsersWhoDoesntLike().get(i);
+            if(relation.getComment().equals( "AUCUN COMMENTAIRE DANS LA V1"))
+                continue;
+            relation.toJSON(relationJSON);
+            results.put(relationJSON);
+        }
+        for (int i = 0; i < getOnListOf().size(); i++) {
+            JSONObject relationJSON = new JSONObject();
+            RelationToUser relation = getOnListOf().get(i);
+            if(relation.getComment().equals( "AUCUN COMMENTAIRE DANS LA V1"))
+                continue;
+            relation.toJSON(relationJSON);
+            results.put(relationJSON);
         }
         return results.toString();
     }

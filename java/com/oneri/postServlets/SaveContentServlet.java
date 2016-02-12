@@ -32,7 +32,7 @@ public class SaveContentServlet extends javax.servlet.http.HttpServlet {
         String description = req.getParameter("description");
         String commercialLink = req.getParameter("commercialLink");
 
-        if (!(contentType.equals("movie") || contentType.equals("series") && contentType.equals("comic")
+        if (!(contentType.equals("movie") || contentType.equals("series") || contentType.equals("comic")
                 || contentType.equals("video game") || contentType.equals("book") || contentType.equals("music")) ){
             resp.getWriter().println(contentType + " n'est pas un type valide");
             return;

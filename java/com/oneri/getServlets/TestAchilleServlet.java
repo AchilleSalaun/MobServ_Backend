@@ -38,7 +38,7 @@ public class TestAchilleServlet extends HttpServlet {
         Recommendator recommendator = null;
         try
         {
-            recommendator = new Recommendator(100,50,contentType);
+            recommendator = new Recommendator(100,20,contentType);
         }
         catch (AttributeException e)
         {

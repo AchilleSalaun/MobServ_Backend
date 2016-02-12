@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.oneri.SuperClasses.Relation;
 
 import java.io.IOException;
 
@@ -28,6 +29,12 @@ public class SaveRelationServlet  extends javax.servlet.http.HttpServlet {
         String contentType = req.getParameter("contentType");
         String relationType = req.getParameter("relationType");
         String comment = req.getParameter("comment");
+
+        if(relationType==null){
+            Relation relation = new Relation(contentType,title,email);
+            relation.setComment(comment);
+            relation.putInDB();
+        }
 
         // Take a reference of the datastore
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
