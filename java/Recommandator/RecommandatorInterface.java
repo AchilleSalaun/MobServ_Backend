@@ -13,6 +13,6 @@ public interface RecommandatorInterface
 
     public ArrayList<AppItemInterface> clusterItem(ArrayList<AppItemInterface> itemList, ArrayList<AppUserInterface> userList);
 
-    // public double markovRankingItem(AppItemInterface item, GraphUserInterface graph) ;
+    // public double markovRankingItem(AppItemInterface item, GraphUserInterface graph);
 
 }
